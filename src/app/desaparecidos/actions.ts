@@ -8,6 +8,10 @@ import {
   missingPersonSchema,
   type MissingPersonInput,
 } from "@/lib/validations/missing-person";
+import { tipSchema, type TipInput } from "@/lib/validations/tip";
+
+const orNull = (s: string) => (s.trim() === "" ? null : s.trim());
+const numOrNull = (s: string) => (s.trim() === "" ? null : Number(s));
 
 export type CreateResult =
   | { ok: true; id: number }
@@ -28,10 +32,7 @@ export async function createMissingPerson(
     return { ok: false, error: "No hay un evento activo en este momento." };
   }
 
-  // Convierte texto → tipos de la base de datos ("" → null).
-  const orNull = (s: string) => (s.trim() === "" ? null : s.trim());
-  const numOrNull = (s: string) => (s.trim() === "" ? null : Number(s));
-
+  // Convierte texto → tipos de la base de datos ("" → null) con orNull/numOrNull.
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("missing_persons")
@@ -65,4 +66,50 @@ export async function createMissingPerson(
 
   revalidatePath("/desaparecidos");
   return { ok: true, id: data.id };
+}
+
+export type TipResult = { ok: true } | { ok: false; error: string };
+
+/** Crea una pista ("Tengo información") asociada a una persona desaparecida. */
+export async function createTip(
+  personId: number,
+  input: TipInput,
+): Promise<TipResult> {
+  const parsed = tipSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, error: "Datos inválidos. Revisa el formulario." };
+  }
+  if (!Number.isInteger(personId) || personId < 1) {
+    return { ok: false, error: "Ficha no válida." };
+  }
+  const v = parsed.data;
+
+  const supabase = await createClient();
+
+  // La persona debe existir y ser visible (RLS solo devuelve lo visible).
+  const { data: person } = await supabase
+    .from("missing_persons")
+    .select("id")
+    .eq("id", personId)
+    .maybeSingle();
+  if (!person) {
+    return { ok: false, error: "No encontramos esa ficha." };
+  }
+
+  const { error } = await supabase.from("tips").insert({
+    missing_person_id: personId,
+    informacion: v.informacion,
+    nombre: orNull(v.nombre),
+    telefono: orNull(v.telefono),
+    ubicacion_texto: orNull(v.ubicacion_texto),
+    lat: numOrNull(v.lat),
+    lng: numOrNull(v.lng),
+    foto_url: orNull(v.foto_url),
+  });
+  if (error) {
+    return { ok: false, error: "No se pudo enviar. Inténtalo de nuevo." };
+  }
+
+  revalidatePath(`/desaparecidos/${personId}`);
+  return { ok: true };
 }

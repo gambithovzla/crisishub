@@ -15,6 +15,7 @@ import { getTranslations } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/missing/status-badge";
+import { TipsList } from "@/components/missing/tips-list";
 import { createClient } from "@/lib/supabase/server";
 import type { MissingPerson } from "@/lib/supabase/types";
 
@@ -143,6 +144,9 @@ export default async function PersonDetailPage({ params }: Params) {
         <Info className="size-6" />
         {t("haveInfo")}
       </Button>
+
+      {/* Pistas aportadas por la gente */}
+      <TipsList personId={person.id} />
 
       {/* Descripción */}
       {person.descripcion ? (

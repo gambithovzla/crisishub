@@ -103,7 +103,8 @@ En producción hay que añadir las mismas en Vercel → Settings → Environment
 - ✅ **Fase 3** — Módulo "Personas desaparecidas": formulario con "Último contacto",
   subida de foto, listado, ficha con URL única + Open Graph, botón "Tengo información".
   Rutas en `src/app/desaparecidos/*`; lógica en `src/lib` y `src/components/missing`.
-- ⏭️ **Fase 4** — "Tengo información": formulario de pistas asociado a una ficha
-  (ruta placeholder ya creada en `desaparecidos/[id]/tengo-informacion`).
-- Resto: ver `ROADMAP.md` (Buscar, Mapa, Ayuda, Moderación, Seguridad,
-  Rendimiento/PWA, Lanzamiento).
+- ✅ **Fase 4** — "Tengo información": formulario de pistas (`tip-form.tsx`) en
+  `desaparecidos/[id]/tengo-informacion`, action `createTip`, y `TipsList` en la
+  ficha (muestra info/ubicación/foto/fecha; oculta nombre/teléfono del informante).
+- ⏭️ **Fase 5** — Buscar: búsqueda rápida (full-text `search_vector` ya existe en BD).
+- Resto: ver `ROADMAP.md` (Mapa, Ayuda, Moderación, Seguridad, Rendimiento/PWA, Lanzamiento).

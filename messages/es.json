@@ -110,5 +110,26 @@
     "viewOnMap": "Ver en el mapa",
     "contactFamilyHint": "Si tienes cualquier dato, comunícate directamente.",
     "ogDescription": "{name} — Persona desaparecida en {place}. Si tienes información, ayúdanos."
+  },
+  "tip": {
+    "title": "Tengo información",
+    "about": "Sobre {name}",
+    "backToPerson": "Volver a la ficha",
+    "privacyNote": "Tus datos de contacto son opcionales y solo los verán los moderadores para verificar la información. La pista que escribas podrá mostrarse en la ficha sin tu nombre ni teléfono.",
+    "label": {
+      "info": "¿Qué información tienes?",
+      "ubicacion": "Lugar relacionado",
+      "nombre": "Tu nombre",
+      "telefono": "Tu teléfono"
+    },
+    "ph": {
+      "info": "Cuéntanos lo que sabes: dónde la viste, cuándo, con quién, cómo estaba…"
+    },
+    "photoOptional": "Añadir una foto (opcional)",
+    "success": "¡Gracias! Tu información fue enviada.",
+    "submit": "Enviar información",
+    "submitting": "Enviando…",
+    "viewOnMap": "Ver en el mapa",
+    "listTitle": "{count, plural, one {# pista aportada} other {# pistas aportadas}}"
   }
 }
