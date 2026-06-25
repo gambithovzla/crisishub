@@ -20,7 +20,7 @@ El plan completo por fases está en [`ROADMAP.md`](ROADMAP.md).
 - **next-intl** (i18n, español por defecto, sin routing de locale)
 - **next-themes** (modo claro/oscuro/sistema)
 - **Supabase** (Postgres + Auth + Storage + Realtime)
-- Mapas (pendiente, Fase 6): **Leaflet + OpenStreetMap**
+- Mapas: **Leaflet + OpenStreetMap** (react-leaflet, carga diferida ssr:false)
 - Hosting: **Vercel** (repo `github.com/gambithovzla/crisishub`, auto-deploy desde `main`)
 
 ## ⚠️ Gotchas importantes (leer antes de tocar UI)

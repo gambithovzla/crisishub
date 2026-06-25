@@ -90,20 +90,31 @@ Seguridad de datos: **RLS (Row Level Security)** activado en todas las tablas.
 
 ## FASES
 
-### Fase 0 — Cuentas y cimientos (sin código)
+> **Estado al 2026-06-25:** ✅ Fases 0–7 completadas y **en producción**
+> (https://crisishub-neon.vercel.app). Los **5 módulos del MVP** están vivos.
+> Repo: github.com/gambithovzla/crisishub. Próximo: **Fase 8 (moderación)**.
+>
+> Desviaciones respecto al plan original (decisiones tomadas):
+> - **Next.js 16** (no 15) + **Tailwind v4** + shadcn estilo **base-nova (Base UI)**.
+> - Rutas top-level (`/desaparecidos`, `/buscar`, `/mapa`, `/ayuda`) en vez de
+>   `/[evento]/...`: el MVP usa un único evento activo; el multi-evento se añadirá
+>   con routing por slug cuando haga falta (la BD ya está lista con `event_id`).
+> - **Añadido a Fase 7:** Centros de acopio internacionales (`/ayuda/acopio`).
+
+### ✅ Fase 0 — Cuentas y cimientos (sin código)
 - Crear cuenta en **GitHub** (repo del proyecto), **Supabase** (backend gratis), **Vercel** (publicar gratis).
 - Crear el proyecto Supabase y copiar las 2 claves (`URL` y `anon key`) + la `service_role` (secreta).
 - *Entregable:* las 3 cuentas listas y claves a mano.
 
-### Fase 1 — Scaffold + Sistema de diseño
-- Next.js 15 (App Router) + TypeScript + TailwindCSS + shadcn/ui.
+### ✅ Fase 1 — Scaffold + Sistema de diseño
+- Next.js 16 (App Router) + TypeScript + TailwindCSS v4 + shadcn/ui (Base UI).
 - Estructura de carpetas multi-evento e i18n (`next-intl` o equivalente) con español por defecto.
 - **Design system estilo Gov.uk / Google Crisis Response:** mucho espacio blanco, botones grandes, alto contraste, foco visible, tipografía grande legible.
 - Modo oscuro + tokens de color accesibles (contraste AA/AAA).
 - Shell PWA básico (manifest, instalable) y layout base responsive mobile-first.
 - *Entregable:* la web arranca, se ve el layout, cambia de tema, sin módulos aún.
 
-### Fase 2 — Modelo de datos y arquitectura "Evento"
+### ✅ Fase 2 — Modelo de datos y arquitectura "Evento"
 - Migraciones SQL de todas las tablas + índices + `search_vector` para búsqueda.
 - RLS y políticas de acceso.
 - Buckets de Storage para fotos (con validación y límites).
@@ -111,39 +122,42 @@ Seguridad de datos: **RLS (Row Level Security)** activado en todas las tablas.
 - Seed de demo: el evento "Terremoto Venezuela 2026".
 - *Entregable:* base de datos viva, segura y tipada, con un evento de prueba.
 
-### Fase 3 — Módulo 1: Personas desaparecidas ⭐ (incluye "Último contacto")
+### ✅ Fase 3 — Módulo 1: Personas desaparecidas ⭐ (incluye "Último contacto")
 - Formulario público de alta (nombre, apellido, edad aprox, foto, descripción, familiar+teléfono).
 - **Bloque "Último contacto":** ubicación en mapa, hora, medio (llamada/WhatsApp/presencial/otro), qué estaba haciendo.
 - Ficha individual con **URL única** (`/[evento]/desaparecidos/[id]`), optimizada para compartir (Open Graph: foto + nombre).
 - Estados: Desaparecido / Encontrado con vida / Fallecido.
 - *Entregable:* alta de un desaparecido de punta a punta + ficha compartible.
 
-### Fase 4 — Módulo 2: "Tengo información"
+### ✅ Fase 4 — Módulo 2: "Tengo información"
 - Botón gigante en cada ficha.
 - Formulario de reporte (nombre, teléfono, información, ubicación, foto opcional).
 - Reporte queda asociado a la persona y visible para admins/familiares según política.
 - *Entregable:* cualquiera puede aportar pistas a una ficha.
 
-### Fase 5 — Módulo 3: Buscar (rápido)
+### ✅ Fase 5 — Módulo 3: Buscar (rápido)
 - Buscador por nombre, apellido, ciudad, estado, edad.
 - Búsqueda full-text de Postgres con índices (`search_vector`) para que sea instantánea incluso con miles de registros.
 - Resultados con foto, estado y enlace a ficha; paginación ligera.
 - *Entregable:* encontrar a alguien en < 1 segundo.
 
-### Fase 6 — Módulo 4: Mapa colaborativo
+### ✅ Fase 6 — Módulo 4: Mapa colaborativo
 - Leaflet + OpenStreetMap (carga diferida para no penalizar el 2G).
 - Marcadores: hospital, refugio, acopio, agua, calle bloqueada, edificio colapsado.
 - Cada marcador: tipo, descripción, foto, fecha, usuario.
 - Alta de marcador desde el mapa; clustering para muchos puntos.
 - *Entregable:* mapa con capas filtrables y alta colaborativa.
 
-### Fase 7 — Módulo 5: Ayuda
+### ✅ Fase 7 — Módulo 5: Ayuda
 - Dos pestañas: **Necesito ayuda** / **Ofrezco ayuda**.
 - Categorías: agua, comida, medicinas, hospedaje, transporte, electricidad, internet, ropa, otros.
 - Estado por solicitud: pendiente / en proceso / resuelta.
-- *Entregable:* tablero de oferta y demanda de ayuda.
+- **Extra (idea del equipo): Centros de acopio internacionales** (`/ayuda/acopio`):
+  directorio agrupado por país para que la diáspora sepa dónde y cómo donar
+  (qué reciben, horario, dirección, contacto). Tabla `collection_points`.
+- *Entregable:* tablero de oferta y demanda + directorio de acopio mundial.
 
-### Fase 8 — Moderación y panel admin
+### ⏭️ Fase 8 — Moderación y panel admin
 - Login (Supabase Auth) con roles admin/moderador.
 - Acciones: editar, eliminar/ocultar, marcar como información falsa, **fusionar duplicados**.
 - `audit_log` de cada acción.
@@ -176,5 +190,7 @@ IA para detectar noticias falsas · Chat entre familiares · Notificaciones · S
 ---
 
 ## Próximo paso sugerido
-Aprobar este roadmap y arrancar por **Fase 0 + Fase 1** (cuentas + scaffold + sistema de diseño),
-que es lo que desbloquea todo lo demás.
+MVP (Fases 0–7) **completo y en producción**. Lo siguiente es la **Fase 8 —
+Moderación y panel admin**: login con Supabase Auth (roles admin/moderador) para
+editar, ocultar contenido falso y fusionar duplicados. La base ya está lista
+(`profiles`, función `is_staff()`, tabla `audit_log`).
