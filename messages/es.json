@@ -1,0 +1,46 @@
+{
+  "app": {
+    "name": "CrisisHub",
+    "tagline": "Información de emergencia, en un solo lugar",
+    "description": "Plataforma ciudadana de respuesta rápida ante desastres naturales."
+  },
+  "nav": {
+    "missing": "Desaparecidos",
+    "search": "Buscar",
+    "map": "Mapa",
+    "help": "Ayuda",
+    "report": "Reportar desaparecido",
+    "menu": "Menú",
+    "skipToContent": "Saltar al contenido principal",
+    "toggleTheme": "Cambiar tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
+  "home": {
+    "heroTitle": "Encuentra a tus seres queridos",
+    "heroSubtitle": "Reporta personas desaparecidas, aporta información y coordina ayuda durante una emergencia.",
+    "ctaReport": "Reportar a una persona desaparecida",
+    "ctaSearch": "Buscar a una persona",
+    "modulesTitle": "¿Qué necesitas hacer?",
+    "moduleMissingDesc": "Registra a alguien que no encuentras.",
+    "moduleSearchDesc": "Busca entre los reportes existentes.",
+    "moduleMapDesc": "Hospitales, refugios y zonas de riesgo.",
+    "moduleHelpDesc": "Pide o ofrece ayuda."
+  },
+  "footer": {
+    "rights": "Herramienta de emergencia abierta para la ciudadanía.",
+    "notSocialNetwork": "Esto no es una red social ni un portal de noticias."
+  },
+  "common": {
+    "comingSoon": "En construcción",
+    "comingSoonNote": "Este módulo llegará en una próxima fase del proyecto.",
+    "loading": "Cargando…",
+    "required": "Obligatorio",
+    "optional": "Opcional",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "send": "Enviar",
+    "back": "Volver"
+  }
+}
