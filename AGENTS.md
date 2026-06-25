@@ -109,5 +109,8 @@ En producción hay que añadir las mismas en Vercel → Settings → Environment
 - ✅ **Fase 5** — Buscar: `/buscar` con formulario nativo GET (sin JS, 2G-friendly),
   full-text en español **sin acentos** (f_unaccent + `stripAccents` en el query) y
   filtros por estado/situación/edad. Requiere correr `0004_search_unaccent.sql`.
-- ⏭️ **Fase 6** — Mapa colaborativo (Leaflet + OpenStreetMap).
-- Resto: ver `ROADMAP.md` (Ayuda, Moderación, Seguridad, Rendimiento/PWA, Lanzamiento).
+- ✅ **Fase 6** — Mapa colaborativo: `/mapa` con Leaflet + OSM cargado vía
+  `next/dynamic` (ssr:false) en `map-view.tsx`; `crisis-map.tsx` con pines por tipo,
+  popups, filtros y alta (tocar mapa o GPS + foto). Action `createMarker`.
+- ⏭️ **Fase 7** — Ayuda (necesito/ofrezco): tabla `help_requests` ya lista.
+- Resto: ver `ROADMAP.md` (Moderación, Seguridad, Rendimiento/PWA, Lanzamiento).

@@ -1,8 +1,51 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
-import { PagePlaceholder } from "@/components/page-placeholder";
+import { MapView } from "@/components/map/map-view";
+import { getActiveEvent } from "@/lib/events";
+import { createClient } from "@/lib/supabase/server";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("nav");
+  return { title: t("map") };
+}
+
+const DEFAULT_CENTER = { lat: 10.4806, lng: -66.9036, zoom: 7 };
 
 export default async function MapPage() {
-  const t = await getTranslations("nav");
-  return <PagePlaceholder title={t("map")} />;
+  const t = await getTranslations("map");
+  const tNav = await getTranslations("nav");
+
+  const event = await getActiveEvent();
+  const supabase = await createClient();
+  const { data } = event
+    ? await supabase
+        .from("map_markers")
+        .select("*")
+        .eq("event_id", event.id)
+        .order("created_at", { ascending: false })
+        .limit(500)
+    : { data: [] };
+  const markers = data ?? [];
+
+  const center =
+    event && event.center_lat != null && event.center_lng != null
+      ? {
+          lat: event.center_lat,
+          lng: event.center_lng,
+          zoom: event.center_zoom,
+        }
+      : DEFAULT_CENTER;
+
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-8">
+      <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+        {tNav("map")}
+      </h1>
+      <p className="mt-1 text-muted-foreground">{t("intro")}</p>
+      <div className="mt-6">
+        <MapView markers={markers} center={center} />
+      </div>
+    </div>
+  );
 }

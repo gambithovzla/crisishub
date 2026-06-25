@@ -146,5 +146,35 @@
     "resultsCount": "{count, plural, =0 {Sin resultados} one {# resultado} other {# resultados}}",
     "empty": "No encontramos a nadie con esos criterios. Prueba con menos filtros.",
     "emptyAll": "Aún no hay personas reportadas."
+  },
+  "map": {
+    "intro": "Hospitales, refugios, agua y zonas de riesgo. Toca un marcador para ver detalles, o añade uno tú.",
+    "add": "Añadir marcador",
+    "addHint": "Toca el mapa en el lugar exacto",
+    "cancel": "Cancelar",
+    "success": "Marcador añadido. Gracias por ayudar.",
+    "type": {
+      "hospital": "Hospital",
+      "refugio": "Refugio",
+      "acopio": "Centro de acopio",
+      "agua": "Punto de agua",
+      "calle_bloqueada": "Calle bloqueada",
+      "edificio_colapsado": "Edificio colapsado"
+    },
+    "popup": {
+      "addedBy": "Por {user}",
+      "anon": "Anónimo"
+    },
+    "form": {
+      "title": "Nuevo marcador",
+      "tipo": "Tipo de lugar",
+      "descripcion": "Descripción",
+      "descripcionPh": "Ej.: hospital con urgencias abiertas",
+      "usuario": "Tu nombre (opcional)",
+      "foto": "Foto (opcional)",
+      "fotoAdd": "Añadir foto",
+      "submit": "Guardar marcador",
+      "submitting": "Guardando…"
+    }
   }
 }

@@ -191,6 +191,24 @@
   }
 }
 
+/* Marcador temporal del mapa (al elegir ubicación) */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* El popup de Leaflet hereda los colores del tema */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--popover);
+  color: var(--popover-foreground);
+}
+
 /* Utilidad: salto al contenido para lectores de pantalla / teclado */
 .skip-link {
   @apply sr-only;
