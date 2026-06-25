@@ -53,7 +53,7 @@ do $$ begin
 exception when duplicate_object then null; end $$;
 
 -- ----------------------------------------------------------------------------
--- 2) Utilidades: updated_at automático y comprobación de rol de staff
+-- 2) Utilidad: updated_at automático
 -- ----------------------------------------------------------------------------
 create or replace function public.set_updated_at()
 returns trigger language plpgsql as $$
@@ -61,6 +61,17 @@ begin
   new.updated_at = now();
   return new;
 end; $$;
+
+-- ----------------------------------------------------------------------------
+-- 3) Perfiles de staff (ligados a Supabase Auth)
+--    Debe crearse ANTES de la función is_staff(), que lo consulta.
+-- ----------------------------------------------------------------------------
+create table if not exists public.profiles (
+  id          uuid primary key references auth.users(id) on delete cascade,
+  rol         user_role not null default 'moderador',
+  nombre      text,
+  created_at  timestamptz not null default now()
+);
 
 -- ¿El usuario autenticado es admin/moderador? SECURITY DEFINER evita
 -- recursión de RLS al consultar la tabla profiles dentro de las políticas.
@@ -73,16 +84,6 @@ set search_path = public
 as $$
   select exists (select 1 from public.profiles p where p.id = auth.uid());
 $$;
-
--- ----------------------------------------------------------------------------
--- 3) Perfiles de staff (ligados a Supabase Auth)
--- ----------------------------------------------------------------------------
-create table if not exists public.profiles (
-  id          uuid primary key references auth.users(id) on delete cascade,
-  rol         user_role not null default 'moderador',
-  nombre      text,
-  created_at  timestamptz not null default now()
-);
 
 -- ----------------------------------------------------------------------------
 -- 4) Eventos (el concepto raíz)
