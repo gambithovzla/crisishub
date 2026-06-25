@@ -42,5 +42,73 @@
     "cancel": "Cancelar",
     "send": "Enviar",
     "back": "Volver"
+  },
+  "missing": {
+    "newTitle": "Reportar persona desaparecida",
+    "newIntro": "Completa lo que sepas. Cuanta más información, más fácil será encontrarla. Solo el nombre, tu nombre y tu teléfono son obligatorios.",
+    "section": {
+      "photo": "Foto",
+      "person": "Datos de la persona",
+      "lastContact": "Último contacto",
+      "lastContactHint": "Dónde y cuándo se supo de ella por última vez. Esto ayuda a los equipos de rescate a detectar patrones.",
+      "reporter": "Tus datos (familiar o allegado)",
+      "reporterHint": "Para que quien tenga información pueda comunicarse contigo."
+    },
+    "photoChoose": "Toca para añadir una foto",
+    "photoChange": "Cambiar foto",
+    "photoHint": "Una foto clara del rostro ayuda muchísimo.",
+    "label": {
+      "nombre": "Nombre",
+      "apellido": "Apellido",
+      "edad": "Edad aproximada",
+      "estado": "Estado",
+      "ciudad": "Ciudad",
+      "descripcion": "Descripción y señas",
+      "ubicacion": "Última ubicación conocida",
+      "fecha": "Fecha y hora del último contacto",
+      "medio": "Medio del último contacto",
+      "actividad": "¿Qué estaba haciendo?",
+      "familiarNombre": "Tu nombre",
+      "familiarTelefono": "Tu teléfono"
+    },
+    "ph": {
+      "descripcion": "Estatura, contextura, ropa que llevaba, señas particulares…",
+      "ubicacion": "Ej.: Av. Bolívar con calle 5, Chacao",
+      "actividad": "Ej.: salió a comprar agua y no regresó"
+    },
+    "selectEstado": "Selecciona un estado",
+    "selectMedio": "Selecciona…",
+    "contactMethod": {
+      "llamada": "Llamada",
+      "whatsapp": "WhatsApp",
+      "sms": "Mensaje de texto (SMS)",
+      "presencial": "En persona",
+      "redes": "Redes sociales",
+      "otro": "Otro"
+    },
+    "useMyLocation": "Usar mi ubicación",
+    "locationSaved": "Ubicación guardada ✓",
+    "locationCaptured": "Ubicación guardada correctamente.",
+    "locationError": "No pudimos obtener tu ubicación.",
+    "locationUnsupported": "Tu dispositivo no permite compartir ubicación.",
+    "phonePublic": "Será visible para que puedan darte información.",
+    "photoError": "No se pudo subir la foto. Intenta con otra.",
+    "success": "Reporte publicado. Gracias por ayudar.",
+    "error": "Algo salió mal. Intenta de nuevo.",
+    "submit": "Publicar reporte",
+    "submitting": "Publicando…",
+    "status": {
+      "desaparecido": "Desaparecido",
+      "encontrado_vivo": "Encontrado con vida",
+      "fallecido": "Fallecido"
+    },
+    "ageYears": "≈ {age} años",
+    "listCount": "{count, plural, =0 {Sin reportes todavía} one {# persona reportada} other {# personas reportadas}}",
+    "emptyList": "Aún no hay reportes. Sé el primero en publicar uno.",
+    "backToList": "Volver al listado",
+    "haveInfo": "Tengo información",
+    "viewOnMap": "Ver en el mapa",
+    "contactFamilyHint": "Si tienes cualquier dato, comunícate directamente.",
+    "ogDescription": "{name} — Persona desaparecida en {place}. Si tienes información, ayúdanos."
   }
 }
