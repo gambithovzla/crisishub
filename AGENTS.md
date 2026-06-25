@@ -112,5 +112,8 @@ En producción hay que añadir las mismas en Vercel → Settings → Environment
 - ✅ **Fase 6** — Mapa colaborativo: `/mapa` con Leaflet + OSM cargado vía
   `next/dynamic` (ssr:false) en `map-view.tsx`; `crisis-map.tsx` con pines por tipo,
   popups, filtros y alta (tocar mapa o GPS + foto). Action `createMarker`.
-- ⏭️ **Fase 7** — Ayuda (necesito/ofrezco): tabla `help_requests` ya lista.
-- Resto: ver `ROADMAP.md` (Moderación, Seguridad, Rendimiento/PWA, Lanzamiento).
+- ✅ **Fase 7** — Ayuda: `/ayuda` con pestañas necesito/ofrezco (`help_*`), y
+  **Centros de acopio internacionales** `/ayuda/acopio` (tabla `collection_points`,
+  migración `0005`, directorio por país + alta). Completa el MVP de 5 módulos.
+- ⏭️ **Fase 8** — Moderación y panel admin (Auth + roles; `is_staff`, `audit_log` listos).
+- Resto: ver `ROADMAP.md` (Seguridad, Rendimiento/PWA, Lanzamiento).

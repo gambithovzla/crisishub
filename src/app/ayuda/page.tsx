@@ -88,6 +88,22 @@ export default async function HelpPage({
         </Button>
       </div>
 
+      {/* Acceso al directorio de acopio internacional */}
+      <Link
+        href="/ayuda/acopio"
+        className="mt-4 flex items-center gap-3 rounded-xl border border-primary/30 bg-primary/5 p-4 transition-colors hover:border-primary"
+      >
+        <span className="text-2xl" aria-hidden>
+          🌍
+        </span>
+        <span>
+          <span className="font-semibold">{t("acopioBanner")}</span>
+          <span className="block text-sm text-muted-foreground">
+            {t("acopioBannerSub")}
+          </span>
+        </span>
+      </Link>
+
       {list.length === 0 ? (
         <div className="mt-6 rounded-xl border border-dashed p-10 text-center text-muted-foreground">
           {t("empty")}

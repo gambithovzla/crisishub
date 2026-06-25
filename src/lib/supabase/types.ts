@@ -212,6 +212,46 @@ export interface Database {
         >;
         Relationships: [];
       };
+      collection_points: {
+        Row: {
+          id: number;
+          event_id: number;
+          pais: string;
+          ciudad: string | null;
+          nombre: string;
+          direccion: string | null;
+          lat: number | null;
+          lng: number | null;
+          categorias: HelpCategory[];
+          instrucciones: string | null;
+          horario: string | null;
+          contacto: string | null;
+          url: string | null;
+          activo: boolean;
+          moderation: ModerationStatus;
+          created_at: string;
+        };
+        Insert: {
+          event_id: number;
+          pais: string;
+          ciudad?: string | null;
+          nombre: string;
+          direccion?: string | null;
+          lat?: number | null;
+          lng?: number | null;
+          categorias?: HelpCategory[];
+          instrucciones?: string | null;
+          horario?: string | null;
+          contacto?: string | null;
+          url?: string | null;
+          activo?: boolean;
+          moderation?: ModerationStatus;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["collection_points"]["Insert"]
+        >;
+        Relationships: [];
+      };
       profiles: {
         Row: { id: string; rol: UserRole; nombre: string | null } & Timestamps;
         Insert: { id: string; rol?: UserRole; nombre?: string | null };
@@ -270,4 +310,5 @@ export type MissingPerson = Tables<"missing_persons">;
 export type Tip = Tables<"tips">;
 export type MapMarker = Tables<"map_markers">;
 export type HelpRequest = Tables<"help_requests">;
+export type CollectionPoint = Tables<"collection_points">;
 export type Profile = Tables<"profiles">;

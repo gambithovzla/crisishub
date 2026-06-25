@@ -180,6 +180,8 @@
   "help": {
     "title": "Ayuda",
     "intro": "Pide lo que necesitas u ofrece lo que puedas dar. Toca una pestaña.",
+    "acopioBanner": "¿Quieres donar desde otro país?",
+    "acopioBannerSub": "Centros de acopio en Lima, Miami, Santiago, Tokio y más.",
     "tab": {
       "necesito": "Necesito ayuda",
       "ofrezco": "Ofrezco ayuda"
@@ -219,6 +221,35 @@
       "pendiente": "Pendiente",
       "en_proceso": "En proceso",
       "resuelta": "Resuelta"
+    }
+  },
+  "acopio": {
+    "title": "Centros de acopio en el mundo",
+    "intro": "Puntos donde llevar insumos para el desastre, estés donde estés. Si conoces uno, regístralo para que otros sepan dónde y cómo donar.",
+    "back": "Volver a Ayuda",
+    "register": "Registrar un centro",
+    "registerIntro": "Comparte un punto de recolección: dónde está, qué reciben y cómo funciona.",
+    "empty": "Aún no hay centros registrados. Sé el primero en añadir uno.",
+    "website": "Sitio / redes",
+    "selectPais": "Selecciona país",
+    "success": "Centro registrado. Gracias por sumar.",
+    "submit": "Registrar centro",
+    "submitting": "Registrando…",
+    "label": {
+      "pais": "País",
+      "ciudad": "Ciudad",
+      "nombre": "Nombre del lugar",
+      "direccion": "Dirección",
+      "categorias": "¿Qué reciben?",
+      "horario": "Horario",
+      "instrucciones": "Cómo funciona / instrucciones",
+      "contacto": "Contacto",
+      "url": "Sitio web o redes"
+    },
+    "ph": {
+      "nombre": "Ej.: Consulado, iglesia, local…",
+      "horario": "Ej.: Lun a Vie 9:00–17:00",
+      "instrucciones": "Ej.: Llevar todo embalado y etiquetado. No se reciben perecederos."
     }
   }
 }

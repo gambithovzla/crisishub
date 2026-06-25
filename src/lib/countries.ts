@@ -1,0 +1,23 @@
+// Países frecuentes de la diáspora (para el directorio de acopio).
+export const PAISES = [
+  "Venezuela",
+  "Argentina",
+  "Bolivia",
+  "Brasil",
+  "Canadá",
+  "Chile",
+  "Colombia",
+  "Costa Rica",
+  "Ecuador",
+  "España",
+  "Estados Unidos",
+  "Italia",
+  "Japón",
+  "México",
+  "Panamá",
+  "Perú",
+  "Portugal",
+  "República Dominicana",
+  "Uruguay",
+  "Otro",
+] as const;
