@@ -106,5 +106,8 @@ En producción hay que añadir las mismas en Vercel → Settings → Environment
 - ✅ **Fase 4** — "Tengo información": formulario de pistas (`tip-form.tsx`) en
   `desaparecidos/[id]/tengo-informacion`, action `createTip`, y `TipsList` en la
   ficha (muestra info/ubicación/foto/fecha; oculta nombre/teléfono del informante).
-- ⏭️ **Fase 5** — Buscar: búsqueda rápida (full-text `search_vector` ya existe en BD).
-- Resto: ver `ROADMAP.md` (Mapa, Ayuda, Moderación, Seguridad, Rendimiento/PWA, Lanzamiento).
+- ✅ **Fase 5** — Buscar: `/buscar` con formulario nativo GET (sin JS, 2G-friendly),
+  full-text en español **sin acentos** (f_unaccent + `stripAccents` en el query) y
+  filtros por estado/situación/edad. Requiere correr `0004_search_unaccent.sql`.
+- ⏭️ **Fase 6** — Mapa colaborativo (Leaflet + OpenStreetMap).
+- Resto: ver `ROADMAP.md` (Ayuda, Moderación, Seguridad, Rendimiento/PWA, Lanzamiento).

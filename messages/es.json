@@ -131,5 +131,20 @@
     "submitting": "Enviando…",
     "viewOnMap": "Ver en el mapa",
     "listTitle": "{count, plural, one {# pista aportada} other {# pistas aportadas}}"
+  },
+  "search": {
+    "title": "Buscar persona",
+    "intro": "Busca por nombre, apellido o ciudad, y filtra por estado, situación o edad.",
+    "q": "Nombre, apellido o ciudad",
+    "qPlaceholder": "Ej.: María Pérez, Caracas…",
+    "allEstados": "Todos los estados",
+    "situation": "Situación",
+    "allStatus": "Cualquier situación",
+    "edad": "Edad aproximada",
+    "submit": "Buscar",
+    "clear": "Limpiar",
+    "resultsCount": "{count, plural, =0 {Sin resultados} one {# resultado} other {# resultados}}",
+    "empty": "No encontramos a nadie con esos criterios. Prueba con menos filtros.",
+    "emptyAll": "Aún no hay personas reportadas."
   }
 }

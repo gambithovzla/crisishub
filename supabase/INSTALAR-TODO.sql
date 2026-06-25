@@ -11,6 +11,22 @@
 -- ============================================================================
 
 -- ----------------------------------------------------------------------------
+-- 0) Extensiones y búsqueda sin acentos
+--    f_unaccent: envoltorio IMMUTABLE de unaccent para usar en columnas
+--    generadas. Hace que "maria perez" encuentre a "María Pérez".
+-- ----------------------------------------------------------------------------
+create extension if not exists unaccent;
+
+create or replace function public.f_unaccent(text)
+returns text
+language sql
+immutable
+parallel safe
+strict
+set search_path = extensions, public, pg_catalog
+as $$ select unaccent($1) $$;
+
+-- ----------------------------------------------------------------------------
 -- 1) Tipos enumerados (conjuntos cerrados de valores)
 --    Se pueden ampliar después con: ALTER TYPE <nombre> ADD VALUE '<nuevo>';
 -- ----------------------------------------------------------------------------
@@ -137,14 +153,16 @@ create table if not exists public.missing_persons (
   merged_into_id            bigint references public.missing_persons(id) on delete set null,
   created_at                timestamptz not null default now(),
   updated_at                timestamptz not null default now(),
-  -- Búsqueda full-text en español (generada automáticamente)
+  -- Búsqueda full-text en español, sin acentos (generada automáticamente)
   search_vector tsvector generated always as (
     to_tsvector('spanish',
-      coalesce(nombre,'')        || ' ' ||
-      coalesce(apellido,'')      || ' ' ||
-      coalesce(ciudad,'')        || ' ' ||
-      coalesce(estado_region,'') || ' ' ||
-      coalesce(descripcion,'')
+      public.f_unaccent(
+        coalesce(nombre,'')        || ' ' ||
+        coalesce(apellido,'')      || ' ' ||
+        coalesce(ciudad,'')        || ' ' ||
+        coalesce(estado_region,'') || ' ' ||
+        coalesce(descripcion,'')
+      )
     )
   ) stored
 );
