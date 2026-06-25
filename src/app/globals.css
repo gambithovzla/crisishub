@@ -89,6 +89,10 @@
   --status-missing: oklch(0.65 0.19 50);   /* desaparecido — ámbar */
   --status-found: oklch(0.55 0.15 150);    /* encontrado con vida — verde */
   --status-deceased: oklch(0.45 0.02 250); /* fallecido — gris pizarra */
+  /* Tricolor de la bandera de Venezuela (acentos de marca) */
+  --ve-yellow: #ffce00;
+  --ve-blue: #0033a0;
+  --ve-red: #ef3340;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -207,6 +211,61 @@
 .leaflet-popup-tip {
   background: var(--popover);
   color: var(--popover-foreground);
+}
+
+/* Franja tricolor (bandera de Venezuela) como acento de marca */
+.flag-stripe {
+  background-image: linear-gradient(
+    to right,
+    var(--ve-yellow) 0%,
+    var(--ve-yellow) 33.33%,
+    var(--ve-blue) 33.33%,
+    var(--ve-blue) 66.66%,
+    var(--ve-red) 66.66%,
+    var(--ve-red) 100%
+  );
+}
+
+/* Etiqueta de sección (estilo editorial / cívico) */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted-foreground);
+}
+
+/* Punto de estado «en vivo» con halo pulsante (respeta reduce-motion) */
+.live-dot {
+  position: relative;
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--emergency);
+}
+.live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--emergency);
+  animation: live-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes live-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  75%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
 }
 
 /* Utilidad: salto al contenido para lectores de pantalla / teclado */

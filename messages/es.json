@@ -18,17 +18,26 @@
     "system": "Sistema"
   },
   "home": {
+    "eyebrow": "Respuesta ciudadana · Venezuela",
     "heroTitle": "Encuentra a tus seres queridos",
     "heroSubtitle": "Reporta personas desaparecidas, aporta información y coordina ayuda durante una emergencia.",
     "ctaReport": "Reportar a una persona desaparecida",
     "ctaSearch": "Buscar a una persona",
+    "statusActive": "Emergencia activa",
+    "statusViewMap": "Ver mapa de la zona",
+    "servicesLabel": "Servicios",
     "modulesTitle": "¿Qué necesitas hacer?",
+    "modulesIntro": "Cuatro herramientas para actuar rápido durante la emergencia.",
     "moduleMissingDesc": "Registra a alguien que no encuentras.",
     "moduleSearchDesc": "Busca entre los reportes existentes.",
     "moduleMapDesc": "Hospitales, refugios y zonas de riesgo.",
     "moduleHelpDesc": "Pide o ofrece ayuda."
   },
   "footer": {
+    "tagline": "Información de emergencia, en un solo lugar.",
+    "sectionTools": "Herramientas",
+    "sectionAbout": "Acerca de",
+    "staffAccess": "Acceso de staff",
     "rights": "Herramienta de emergencia abierta para la ciudadanía.",
     "notSocialNetwork": "Esto no es una red social ni un portal de noticias."
   },
@@ -251,5 +260,56 @@
       "horario": "Ej.: Lun a Vie 9:00–17:00",
       "instrucciones": "Ej.: Llevar todo embalado y etiquetado. No se reciben perecederos."
     }
+  },
+  "admin": {
+    "panelTitle": "Panel de moderación",
+    "dashboard": "Resumen",
+    "dashboardIntro": "Revisa y modera el contenido publicado por la ciudadanía.",
+    "loginTitle": "Acceso de staff",
+    "loginIntro": "Inicia sesión para entrar al panel de moderación.",
+    "loginError": "Correo o contraseña incorrectos.",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "login": "Entrar",
+    "logout": "Salir",
+    "section": {
+      "dashboard": "Resumen",
+      "missing": "Desaparecidos",
+      "tips": "Pistas",
+      "markers": "Mapa",
+      "help": "Ayuda",
+      "acopio": "Acopio"
+    },
+    "role": {
+      "admin": "Administrador",
+      "moderador": "Moderador"
+    },
+    "hiddenCount": "{count, plural, one {# oculto} other {# ocultos}}",
+    "allVisible": "Todo visible",
+    "listAll": "Mostrando los registros más recientes.",
+    "empty": "No hay registros todavía.",
+    "viewPublic": "Ver página pública",
+    "moderation": {
+      "visible": "Visible",
+      "hidden": "Oculto",
+      "false_info": "Información falsa",
+      "merged": "Fusionado"
+    },
+    "error": "Algo salió mal. Intenta de nuevo.",
+    "done": "Hecho.",
+    "hide": "Ocultar",
+    "show": "Mostrar",
+    "markFalse": "Marcar como falso",
+    "delete": "Eliminar",
+    "confirmDelete": "¿Eliminar este registro de forma definitiva?",
+    "situation": "Situación",
+    "mergeInto": "Fusionar en",
+    "merge": "Fusionar",
+    "mergeInvalid": "Indica un ID de ficha válido.",
+    "statusLabel": "Estado",
+    "anon": "Anónimo",
+    "noContact": "Sin contacto",
+    "tipFor": "Pista sobre",
+    "unknownPerson": "Ficha #{id}"
   }
 }

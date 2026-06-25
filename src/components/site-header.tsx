@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, ShieldAlert } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/logo";
 import {
   Sheet,
   SheetContent,
@@ -29,13 +30,19 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <div className="flag-stripe h-1 w-full" aria-hidden />
       <div className="mx-auto flex h-16 max-w-5xl items-center gap-3 px-4">
         <Link
           href="/"
-          className="flex items-center gap-2 font-semibold tracking-tight"
+          className="group flex items-center gap-2 font-semibold tracking-tight"
         >
-          <ShieldAlert className="size-6 text-primary" aria-hidden />
-          <span className="text-lg">{tApp("name")}</span>
+          <Logo className="size-7 transition-transform group-hover:scale-105" />
+          <span className="text-lg">
+            {tApp("name")}
+            <span className="ml-1.5 align-middle text-xs font-medium text-muted-foreground">
+              VE
+            </span>
+          </span>
         </Link>
 
         {/* Navegación de escritorio */}
@@ -77,7 +84,10 @@ export function SiteHeader() {
             </SheetTrigger>
             <SheetContent side="right" className="w-72">
               <SheetHeader>
-                <SheetTitle>{tApp("name")}</SheetTitle>
+                <SheetTitle className="flex items-center gap-2">
+                  <Logo className="size-6" />
+                  {tApp("name")}
+                </SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-1 px-2" aria-label={t("menu")}>
                 {mainNav.map((item) => (
