@@ -100,6 +100,10 @@ En producción hay que añadir las mismas en Vercel → Settings → Environment
 
 - ✅ **Fase 1** — Scaffold + sistema de diseño + layout + i18n + PWA shell.
 - ✅ **Fase 2** — Esquema de BD, RLS, Storage, clientes Supabase y tipos.
-- ⏭️ **Fase 3** — Módulo "Personas desaparecidas" (formulario + ficha + URL única).
-- Resto: ver `ROADMAP.md` (Tengo información, Buscar, Mapa, Ayuda, Moderación,
-  Seguridad, Rendimiento/PWA, Lanzamiento).
+- ✅ **Fase 3** — Módulo "Personas desaparecidas": formulario con "Último contacto",
+  subida de foto, listado, ficha con URL única + Open Graph, botón "Tengo información".
+  Rutas en `src/app/desaparecidos/*`; lógica en `src/lib` y `src/components/missing`.
+- ⏭️ **Fase 4** — "Tengo información": formulario de pistas asociado a una ficha
+  (ruta placeholder ya creada en `desaparecidos/[id]/tengo-informacion`).
+- Resto: ver `ROADMAP.md` (Buscar, Mapa, Ayuda, Moderación, Seguridad,
+  Rendimiento/PWA, Lanzamiento).
