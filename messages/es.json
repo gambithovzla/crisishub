@@ -176,5 +176,49 @@
       "submit": "Guardar marcador",
       "submitting": "Guardando…"
     }
+  },
+  "help": {
+    "title": "Ayuda",
+    "intro": "Pide lo que necesitas u ofrece lo que puedas dar. Toca una pestaña.",
+    "tab": {
+      "necesito": "Necesito ayuda",
+      "ofrezco": "Ofrezco ayuda"
+    },
+    "ctaNecesito": "Publicar lo que necesito",
+    "ctaOfrezco": "Ofrecer ayuda",
+    "introNecesito": "Cuéntanos qué necesitas y dónde estás para que puedan ayudarte.",
+    "introOfrezco": "Cuéntanos qué puedes ofrecer y cómo contactarte.",
+    "empty": "Aún no hay publicaciones aquí. Sé el primero.",
+    "back": "Volver a Ayuda",
+    "label": {
+      "categoria": "Categoría",
+      "descripcion": "Descripción",
+      "ubicacion": "Ubicación",
+      "contacto": "Cómo contactarte"
+    },
+    "ph": {
+      "necesito": "Ej.: Necesitamos agua y pañales para 3 niños.",
+      "ofrezco": "Ej.: Tengo una camioneta para trasladar personas o insumos.",
+      "contacto": "Teléfono, WhatsApp o lo que prefieras"
+    },
+    "success": "Publicado. Gracias por participar.",
+    "submit": "Publicar",
+    "submitting": "Publicando…",
+    "category": {
+      "agua": "Agua",
+      "comida": "Comida",
+      "medicinas": "Medicinas",
+      "hospedaje": "Hospedaje",
+      "transporte": "Transporte",
+      "electricidad": "Electricidad",
+      "internet": "Internet",
+      "ropa": "Ropa",
+      "otros": "Otros"
+    },
+    "status": {
+      "pendiente": "Pendiente",
+      "en_proceso": "En proceso",
+      "resuelta": "Resuelta"
+    }
   }
 }
