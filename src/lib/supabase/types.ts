@@ -414,6 +414,10 @@ export interface Database {
     Views: Record<string, never>;
     Functions: {
       is_staff: { Args: Record<string, never>; Returns: boolean };
+      check_rate_limit: {
+        Args: { p_bucket: string; p_max: number; p_window_seconds: number };
+        Returns: boolean;
+      };
       buscar_pacientes: {
         Args: { q?: string; fac?: number | null };
         Returns: {

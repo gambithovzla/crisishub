@@ -12,6 +12,7 @@ import {
   patientRecordSchema,
   type PatientRecordInput,
 } from "@/lib/validations/patient-record";
+import { checkRateLimit, RATE_LIMIT_MESSAGE } from "@/lib/rate-limit";
 
 export type HealthResult =
   | { ok: true; id?: number }
@@ -28,6 +29,9 @@ const intOrNull = (s: string) => {
 export async function createHealthFacility(
   input: HealthFacilityInput,
 ): Promise<HealthResult> {
+  if (!(await checkRateLimit("facility_create"))) {
+    return { ok: false, error: RATE_LIMIT_MESSAGE };
+  }
   const parsed = healthFacilitySchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: "Datos inválidos. Revisa el formulario." };
@@ -73,6 +77,9 @@ export async function createHealthFacility(
 export async function createPatientRecord(
   input: PatientRecordInput,
 ): Promise<HealthResult> {
+  if (!(await checkRateLimit("patient_create"))) {
+    return { ok: false, error: RATE_LIMIT_MESSAGE };
+  }
   const parsed = patientRecordSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: "Datos inválidos. Revisa el formulario." };

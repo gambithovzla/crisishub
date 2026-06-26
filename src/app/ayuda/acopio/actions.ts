@@ -8,6 +8,7 @@ import {
   collectionPointSchema,
   type CollectionPointInput,
 } from "@/lib/validations/collection-point";
+import { checkRateLimit, RATE_LIMIT_MESSAGE } from "@/lib/rate-limit";
 
 export type AcopioResult =
   | { ok: true; id: number }
@@ -17,6 +18,9 @@ export type AcopioResult =
 export async function createCollectionPoint(
   input: CollectionPointInput,
 ): Promise<AcopioResult> {
+  if (!(await checkRateLimit("acopio_create"))) {
+    return { ok: false, error: RATE_LIMIT_MESSAGE };
+  }
   const parsed = collectionPointSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: "Datos inválidos. Revisa el formulario." };

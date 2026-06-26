@@ -9,6 +9,8 @@ import {
   type MissingPersonInput,
 } from "@/lib/validations/missing-person";
 import { tipSchema, type TipInput } from "@/lib/validations/tip";
+import { checkRateLimit, RATE_LIMIT_MESSAGE } from "@/lib/rate-limit";
+import { cleanPhotoUrl } from "@/lib/security";
 
 const orNull = (s: string) => (s.trim() === "" ? null : s.trim());
 const numOrNull = (s: string) => (s.trim() === "" ? null : Number(s));
@@ -21,6 +23,9 @@ export type CreateResult =
 export async function createMissingPerson(
   input: MissingPersonInput,
 ): Promise<CreateResult> {
+  if (!(await checkRateLimit("missing_create"))) {
+    return { ok: false, error: RATE_LIMIT_MESSAGE };
+  }
   const parsed = missingPersonSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: "Datos inválidos. Revisa el formulario." };
@@ -55,7 +60,7 @@ export async function createMissingPerson(
       ultimo_contacto_medio:
         v.ultimo_contacto_medio === "" ? null : v.ultimo_contacto_medio,
       ultimo_contacto_actividad: orNull(v.ultimo_contacto_actividad),
-      foto_url: orNull(v.foto_url),
+      foto_url: cleanPhotoUrl(v.foto_url),
     })
     .select("id")
     .single();
@@ -75,6 +80,9 @@ export async function createTip(
   personId: number,
   input: TipInput,
 ): Promise<TipResult> {
+  if (!(await checkRateLimit("tip_create"))) {
+    return { ok: false, error: RATE_LIMIT_MESSAGE };
+  }
   const parsed = tipSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: "Datos inválidos. Revisa el formulario." };
@@ -104,7 +112,7 @@ export async function createTip(
     ubicacion_texto: orNull(v.ubicacion_texto),
     lat: numOrNull(v.lat),
     lng: numOrNull(v.lng),
-    foto_url: orNull(v.foto_url),
+    foto_url: cleanPhotoUrl(v.foto_url),
   });
   if (error) {
     return { ok: false, error: "No se pudo enviar. Inténtalo de nuevo." };

@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import { getActiveEvent } from "@/lib/events";
 import { createClient } from "@/lib/supabase/server";
 import { markerSchema, type MarkerInput } from "@/lib/validations/marker";
+import { checkRateLimit, RATE_LIMIT_MESSAGE } from "@/lib/rate-limit";
+import { cleanPhotoUrl } from "@/lib/security";
 
 export type MarkerResult =
   | { ok: true; id: number }
@@ -14,6 +16,9 @@ export type MarkerResult =
 export async function createMarker(
   input: MarkerInput,
 ): Promise<MarkerResult> {
+  if (!(await checkRateLimit("marker_create"))) {
+    return { ok: false, error: RATE_LIMIT_MESSAGE };
+  }
   const parsed = markerSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: "Datos inválidos. Revisa el formulario." };
@@ -35,7 +40,7 @@ export async function createMarker(
       usuario: v.usuario.trim() === "" ? null : v.usuario.trim(),
       lat: Number(v.lat),
       lng: Number(v.lng),
-      foto_url: v.foto_url.trim() === "" ? null : v.foto_url.trim(),
+      foto_url: cleanPhotoUrl(v.foto_url),
     })
     .select("id")
     .single();

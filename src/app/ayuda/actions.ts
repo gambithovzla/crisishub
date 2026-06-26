@@ -8,6 +8,7 @@ import {
   helpRequestSchema,
   type HelpRequestInput,
 } from "@/lib/validations/help";
+import { checkRateLimit, RATE_LIMIT_MESSAGE } from "@/lib/rate-limit";
 
 export type HelpResult =
   | { ok: true; id: number }
@@ -17,6 +18,9 @@ export type HelpResult =
 export async function createHelpRequest(
   input: HelpRequestInput,
 ): Promise<HelpResult> {
+  if (!(await checkRateLimit("help_create"))) {
+    return { ok: false, error: RATE_LIMIT_MESSAGE };
+  }
   const parsed = helpRequestSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: "Datos inválidos. Revisa el formulario." };
