@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import L from "leaflet";
 import {
   MapContainer,
@@ -15,7 +15,7 @@ import {
 } from "react-leaflet";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { Camera, Loader2, MapPin, Plus, X } from "lucide-react";
+import { Camera, Loader2, MapPin, Plus, Search, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -87,6 +87,51 @@ export default function CrisisMap({
   const [foto, setFoto] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  // Búsqueda de direcciones (geocoding con Nominatim / OpenStreetMap)
+  const mapRef = useRef<L.Map | null>(null);
+  const [geoQuery, setGeoQuery] = useState("");
+  const [geoResults, setGeoResults] = useState<
+    { display: string; lat: number; lng: number }[]
+  >([]);
+  const [geoLoading, setGeoLoading] = useState(false);
+
+  async function searchAddress(e?: React.FormEvent) {
+    e?.preventDefault();
+    const q = geoQuery.trim();
+    if (!q) return;
+    setGeoLoading(true);
+    setGeoResults([]);
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&accept-language=es&q=${encodeURIComponent(q)}`;
+      const res = await fetch(url, { headers: { Accept: "application/json" } });
+      const data = (await res.json()) as {
+        display_name: string;
+        lat: string;
+        lon: string;
+      }[];
+      const results = data.map((d) => ({
+        display: d.display_name,
+        lat: Number(d.lat),
+        lng: Number(d.lon),
+      }));
+      if (results.length === 0) toast.message(t("noResults"));
+      setGeoResults(results);
+    } catch {
+      toast.error(t("searchError"));
+    } finally {
+      setGeoLoading(false);
+    }
+  }
+
+  // Vuela al punto elegido y prepara el marcador ahí (abre el formulario).
+  function goToResult(r: { display: string; lat: number; lng: number }) {
+    mapRef.current?.flyTo([r.lat, r.lng], 17, { duration: 1.2 });
+    setPos({ lat: r.lat, lng: r.lng });
+    setAdding(false);
+    setGeoResults([]);
+    setGeoQuery(r.display);
+  }
 
   const visibleMarkers = useMemo(
     () => markers.filter((m) => active.has(m.tipo)),
@@ -163,6 +208,45 @@ export default function CrisisMap({
 
   return (
     <div className="relative">
+      {/* Buscar por dirección (estilo Uber/Cabify): el mapa salta al punto */}
+      <div className="pb-3">
+        <form onSubmit={searchAddress} className="flex gap-2">
+          <Input
+            value={geoQuery}
+            onChange={(e) => setGeoQuery(e.target.value)}
+            placeholder={t("searchPlaceholder")}
+            aria-label={t("searchTitle")}
+            className="h-11 text-base"
+          />
+          <Button type="submit" className="h-11 shrink-0" disabled={geoLoading}>
+            {geoLoading ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <Search className="size-4" />
+            )}
+            <span className="hidden sm:inline">{t("searchButton")}</span>
+          </Button>
+        </form>
+        {geoResults.length > 0 ? (
+          <ul className="mt-2 divide-y overflow-hidden rounded-lg border bg-card">
+            {geoResults.map((r, i) => (
+              <li key={`${r.lat}-${r.lng}-${i}`}>
+                <button
+                  type="button"
+                  onClick={() => goToResult(r)}
+                  className="flex w-full items-start gap-2 px-3 py-2 text-left text-sm hover:bg-accent"
+                >
+                  <MapPin className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+                  {r.display}
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-1.5 text-xs text-muted-foreground">{t("searchHint")}</p>
+        )}
+      </div>
+
       {/* Filtros por tipo */}
       <div className="flex flex-wrap gap-2 pb-3">
         {MARKER_TYPES.map((tp) => {
@@ -189,6 +273,7 @@ export default function CrisisMap({
       {/* Mapa */}
       <div className="relative h-[65vh] w-full overflow-hidden rounded-xl border">
         <MapContainer
+          ref={mapRef}
           center={[center.lat, center.lng]}
           zoom={center.zoom}
           scrollWheelZoom

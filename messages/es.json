@@ -163,6 +163,12 @@
     "add": "Añadir marcador",
     "addHint": "Toca el mapa en el lugar exacto",
     "cancel": "Cancelar",
+    "searchTitle": "Buscar por dirección",
+    "searchPlaceholder": "Escribe una dirección o lugar…",
+    "searchButton": "Buscar",
+    "searchHint": "Escribe una dirección y el mapa irá al punto para añadir el marcador.",
+    "noResults": "No se encontró esa dirección.",
+    "searchError": "No se pudo buscar la dirección.",
     "success": "Marcador añadido. Gracias por ayudar.",
     "type": {
       "hospital": "Hospital",
