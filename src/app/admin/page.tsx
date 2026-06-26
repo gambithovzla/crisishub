@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Globe, LifeBuoy, MapPin, MessageCircle, Users } from "lucide-react";
+import { Globe, Hospital, LifeBuoy, MapPin, MessageCircle, Stethoscope, Users } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { createClient } from "@/lib/supabase/server";
@@ -12,6 +12,8 @@ async function counts() {
     "map_markers",
     "help_requests",
     "collection_points",
+    "health_facilities",
+    "patient_records",
   ] as const;
 
   const entries = await Promise.all(
@@ -38,6 +40,8 @@ const cards = [
   { table: "map_markers", href: "/admin/mapa", key: "markers", icon: MapPin },
   { table: "help_requests", href: "/admin/ayuda", key: "help", icon: LifeBuoy },
   { table: "collection_points", href: "/admin/acopio", key: "acopio", icon: Globe },
+  { table: "health_facilities", href: "/admin/centros", key: "facilities", icon: Hospital },
+  { table: "patient_records", href: "/admin/pacientes", key: "patients", icon: Stethoscope },
 ] as const;
 
 export default async function AdminDashboard() {

@@ -62,6 +62,18 @@ https://www.vzla.lat/entrar/solicitud?invite=TU_CLAVE_SECRETA
 La persona se registra ahí; tú apruebas o rechazas en **Panel → Solicitudes**
 (solo visible si tu perfil tiene rol `admin`).
 
+### Centros de salud y pacientes/heridos
+
+Ejecuta `supabase/migrations/0007_health.sql`. Crea:
+
+- `health_facilities` — directorio de hospitales/clínicas (lectura pública,
+  alta pública moderada, edición solo staff). Viene **pre-cargado** con
+  hospitales públicos conocidos.
+- `patient_records` — registro de pacientes ingresados/heridos. **La tabla
+  NO es legible públicamente** (protege cédulas y notas): solo el staff la lee.
+- `buscar_pacientes(q, fac)` — función segura para la búsqueda pública; devuelve
+  el documento **enmascarado** (`12****78`). Busca por nombre o número de documento.
+
 ## 4. Para producción (Vercel)
 
 Añade las **mismas variables** en Vercel:

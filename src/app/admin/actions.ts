@@ -16,7 +16,9 @@ type ModerableTable =
   | "tips"
   | "map_markers"
   | "help_requests"
-  | "collection_points";
+  | "collection_points"
+  | "health_facilities"
+  | "patient_records";
 
 const SECTION: Record<ModerableTable, { admin: string; publicPaths: string[] }> =
   {
@@ -25,6 +27,8 @@ const SECTION: Record<ModerableTable, { admin: string; publicPaths: string[] }> 
     map_markers: { admin: "/admin/mapa", publicPaths: ["/mapa"] },
     help_requests: { admin: "/admin/ayuda", publicPaths: ["/ayuda"] },
     collection_points: { admin: "/admin/acopio", publicPaths: ["/ayuda/acopio"] },
+    health_facilities: { admin: "/admin/centros", publicPaths: ["/hospitales"] },
+    patient_records: { admin: "/admin/pacientes", publicPaths: ["/hospitales"] },
   };
 
 function revalidateFor(table: ModerableTable) {

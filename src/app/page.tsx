@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, LifeBuoy, MapPin, Search, Users } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Hospital, LifeBuoy, MapPin, Search, Users } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ const moduleMeta: Record<string, { icon: typeof Users; descKey: string }> = {
   missing: { icon: Users, descKey: "moduleMissingDesc" },
   search: { icon: Search, descKey: "moduleSearchDesc" },
   map: { icon: MapPin, descKey: "moduleMapDesc" },
+  health: { icon: Hospital, descKey: "moduleHealthDesc" },
   help: { icon: LifeBuoy, descKey: "moduleHelpDesc" },
 };
 

@@ -14,7 +14,9 @@ type Table =
   | "tips"
   | "map_markers"
   | "help_requests"
-  | "collection_points";
+  | "collection_points"
+  | "health_facilities"
+  | "patient_records";
 
 export function ModerationActions({
   table,

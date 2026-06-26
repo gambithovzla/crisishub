@@ -8,6 +8,7 @@
     "missing": "Desaparecidos",
     "search": "Buscar",
     "map": "Mapa",
+    "health": "Hospitales",
     "help": "Ayuda",
     "report": "Reportar desaparecido",
     "menu": "Menú",
@@ -27,10 +28,11 @@
     "statusViewMap": "Ver mapa de la zona",
     "servicesLabel": "Servicios",
     "modulesTitle": "¿Qué necesitas hacer?",
-    "modulesIntro": "Cuatro herramientas para actuar rápido durante la emergencia.",
+    "modulesIntro": "Herramientas para actuar rápido durante la emergencia.",
     "moduleMissingDesc": "Registra a alguien que no encuentras.",
     "moduleSearchDesc": "Busca entre los reportes existentes.",
     "moduleMapDesc": "Hospitales, refugios y zonas de riesgo.",
+    "moduleHealthDesc": "Busca pacientes y consulta centros de salud.",
     "moduleHelpDesc": "Pide o ofrece ayuda."
   },
   "footer": {
@@ -261,6 +263,99 @@
       "instrucciones": "Ej.: Llevar todo embalado y etiquetado. No se reciben perecederos."
     }
   },
+  "health": {
+    "title": "Hospitales y pacientes",
+    "intro": "Busca a una persona ingresada en un centro de salud o consulta el directorio de hospitales y clínicas.",
+    "searchTitle": "Buscar un paciente",
+    "searchIntro": "Escribe el nombre o el número de documento (cédula o pasaporte) de la persona que buscas.",
+    "searchLabel": "Nombre o documento",
+    "searchPlaceholder": "Ej.: María Pérez o 12345678",
+    "searchSubmit": "Buscar",
+    "searchEmpty": "No encontramos a nadie con esos datos. Prueba con otro nombre o documento, o revisa más tarde.",
+    "resultsCount": "{count, plural, =0 {Sin resultados} one {# resultado} other {# resultados}}",
+    "registerPatient": "Registrar paciente / herido",
+    "registerFacility": "Registrar centro de salud",
+    "privacyNote": "Por privacidad, el documento se muestra parcialmente (ej.: 12****78). Para confirmar la identidad o el estado de un paciente, contacta directamente al centro de salud.",
+    "directoryTitle": "Directorio de centros de salud",
+    "directoryEmpty": "Aún no hay centros de salud registrados para esta emergencia.",
+    "noEstado": "Otros",
+    "verified": "Verificado",
+    "website": "Sitio web",
+    "yearsOld": "{age} años",
+    "registerFacilityIntro": "Agrega un hospital, clínica o centro que no esté en el directorio. El staff revisa los registros nuevos.",
+    "registerPatientIntro": "Registra a una persona ingresada o atendida en un centro de salud para que su familia pueda ubicarla.",
+    "back": "Volver",
+    "submitting": "Enviando…",
+    "facilitySubmit": "Registrar centro",
+    "facilitySuccess": "Centro registrado. ¡Gracias!",
+    "patientSubmit": "Registrar paciente",
+    "patientSuccess": "Paciente registrado. Esto puede ayudar a su familia a ubicarlo.",
+    "selectEstado": "Selecciona el estado",
+    "selectFacility": "Selecciona el centro de salud",
+    "facilityOther": "Otro (no está en la lista)",
+    "notesHint": "No incluyas información médica sensible. Una nota breve es suficiente (ej.: «consciente, estable»).",
+    "reporterLegend": "Tus datos (privados)",
+    "reporterHint": "Solo el staff verá esta información, para verificar el registro si hace falta. No se muestra al público.",
+    "facilityType": {
+      "hospital": "Hospital",
+      "clinica": "Clínica",
+      "ambulatorio": "Ambulatorio",
+      "cdi": "CDI",
+      "modulo": "Módulo / asistencial",
+      "cruz_roja": "Cruz Roja",
+      "otro": "Otro"
+    },
+    "patientStatus": {
+      "ingresado": "Ingresado",
+      "en_observacion": "En observación",
+      "estable": "Estable",
+      "grave": "Grave",
+      "alta": "Dado de alta",
+      "fallecido": "Fallecido",
+      "no_identificado": "No identificado"
+    },
+    "docType": {
+      "cedula_v": "Cédula (V)",
+      "cedula_e": "Cédula (E)",
+      "pasaporte": "Pasaporte",
+      "otro": "Otro documento",
+      "sin_documento": "Sin documento"
+    },
+    "sex": {
+      "unknown": "Sin especificar",
+      "M": "Masculino",
+      "F": "Femenino",
+      "otro": "Otro"
+    },
+    "label": {
+      "facilityName": "Nombre del centro",
+      "type": "Tipo",
+      "estado": "Estado",
+      "ciudad": "Ciudad",
+      "direccion": "Dirección",
+      "capacity": "Operatividad / capacidad",
+      "phone": "Teléfono",
+      "url": "Sitio web",
+      "facility": "Centro de salud",
+      "patientName": "Nombre completo del paciente",
+      "docType": "Tipo de documento",
+      "docNumber": "Número de documento",
+      "age": "Edad",
+      "sex": "Sexo",
+      "patientStatus": "Estado del paciente",
+      "notes": "Nota (opcional)",
+      "reporterName": "Tu nombre",
+      "reporterContact": "Tu teléfono o correo"
+    },
+    "ph": {
+      "facilityName": "Ej.: Hospital Central de Maracay",
+      "capacity": "Ej.: operativo, recibe heridos; emergencia saturada…",
+      "facilityOther": "Nombre del centro de salud",
+      "patientName": "Nombre y apellido",
+      "docNumber": "Ej.: 12345678",
+      "notes": "Ej.: consciente, estable"
+    }
+  },
   "admin": {
     "panelTitle": "Panel de moderación",
     "dashboard": "Resumen",
@@ -279,8 +374,11 @@
       "markers": "Mapa",
       "help": "Ayuda",
       "acopio": "Acopio",
+      "facilities": "Centros",
+      "patients": "Pacientes",
       "applications": "Solicitudes"
     },
+    "reporter": "Reportado por",
     "role": {
       "admin": "Administrador",
       "moderador": "Moderador"

@@ -42,6 +42,31 @@ export type UserRole = "admin" | "moderador";
 
 export type StaffApplicationStatus = "pendiente" | "aprobado" | "rechazado";
 
+export type FacilityType =
+  | "hospital"
+  | "clinica"
+  | "ambulatorio"
+  | "cdi"
+  | "modulo"
+  | "cruz_roja"
+  | "otro";
+
+export type PatientStatus =
+  | "ingresado"
+  | "en_observacion"
+  | "estable"
+  | "grave"
+  | "alta"
+  | "fallecido"
+  | "no_identificado";
+
+export type DocumentType =
+  | "cedula_v"
+  | "cedula_e"
+  | "pasaporte"
+  | "otro"
+  | "sin_documento";
+
 type Timestamps = { created_at: string };
 
 export interface Database {
@@ -286,6 +311,85 @@ export interface Database {
         >;
         Relationships: [];
       };
+      health_facilities: {
+        Row: {
+          id: number;
+          event_id: number;
+          nombre: string;
+          tipo: FacilityType;
+          estado: string | null;
+          ciudad: string | null;
+          direccion: string | null;
+          lat: number | null;
+          lng: number | null;
+          telefono: string | null;
+          capacidad: string | null;
+          url: string | null;
+          verificado: boolean;
+          activo: boolean;
+          moderation: ModerationStatus;
+          created_at: string;
+        };
+        Insert: {
+          event_id: number;
+          nombre: string;
+          tipo?: FacilityType;
+          estado?: string | null;
+          ciudad?: string | null;
+          direccion?: string | null;
+          lat?: number | null;
+          lng?: number | null;
+          telefono?: string | null;
+          capacidad?: string | null;
+          url?: string | null;
+          verificado?: boolean;
+          activo?: boolean;
+          moderation?: ModerationStatus;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["health_facilities"]["Insert"]
+        >;
+        Relationships: [];
+      };
+      patient_records: {
+        Row: {
+          id: number;
+          event_id: number;
+          facility_id: number | null;
+          facility_nombre: string | null;
+          nombre: string;
+          documento_tipo: DocumentType;
+          documento: string | null;
+          documento_norm: string | null;
+          edad: number | null;
+          sexo: string | null;
+          estado: PatientStatus;
+          notas: string | null;
+          reportante_nombre: string | null;
+          reportante_contacto: string | null;
+          moderation: ModerationStatus;
+          created_at: string;
+        };
+        Insert: {
+          event_id: number;
+          facility_id?: number | null;
+          facility_nombre?: string | null;
+          nombre: string;
+          documento_tipo?: DocumentType;
+          documento?: string | null;
+          edad?: number | null;
+          sexo?: string | null;
+          estado?: PatientStatus;
+          notas?: string | null;
+          reportante_nombre?: string | null;
+          reportante_contacto?: string | null;
+          moderation?: ModerationStatus;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["patient_records"]["Insert"]
+        >;
+        Relationships: [];
+      };
       audit_log: {
         Row: {
           id: number;
@@ -310,6 +414,21 @@ export interface Database {
     Views: Record<string, never>;
     Functions: {
       is_staff: { Args: Record<string, never>; Returns: boolean };
+      buscar_pacientes: {
+        Args: { q?: string; fac?: number | null };
+        Returns: {
+          id: number;
+          nombre: string;
+          facility_id: number | null;
+          facility_nombre: string | null;
+          estado: PatientStatus;
+          edad: number | null;
+          sexo: string | null;
+          documento_tipo: DocumentType;
+          documento_masked: string | null;
+          created_at: string;
+        }[];
+      };
     };
     Enums: {
       moderation_status: ModerationStatus;
@@ -322,6 +441,9 @@ export interface Database {
       help_status: HelpStatus;
       user_role: UserRole;
       staff_application_status: StaffApplicationStatus;
+      facility_type: FacilityType;
+      patient_status: PatientStatus;
+      document_type: DocumentType;
     };
   };
 }
@@ -342,3 +464,7 @@ export type HelpRequest = Tables<"help_requests">;
 export type CollectionPoint = Tables<"collection_points">;
 export type Profile = Tables<"profiles">;
 export type StaffApplication = Tables<"staff_applications">;
+export type HealthFacility = Tables<"health_facilities">;
+export type PatientRecord = Tables<"patient_records">;
+export type PatientPublic =
+  Database["public"]["Functions"]["buscar_pacientes"]["Returns"][number];
