@@ -1,15 +1,17 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { Camera, Loader2, MapPin } from "lucide-react";
+import { Camera, Loader2, MapPin, User, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { StatusBadge } from "@/components/missing/status-badge";
 import {
   Form,
   FormControl,
@@ -21,10 +23,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { createMissingPerson } from "@/app/desaparecidos/actions";
+import {
+  buscarPosiblesDuplicados,
+  createMissingPerson,
+} from "@/app/desaparecidos/actions";
 import { Captcha, CAPTCHA_ENABLED } from "@/components/captcha";
 import { compressAndUploadPhoto } from "@/lib/upload";
 import { ESTADOS_VENEZUELA } from "@/lib/venezuela";
+import type { DuplicateCandidate } from "@/lib/supabase/types";
 import {
   CONTACT_METHODS,
   missingPersonSchema,
@@ -43,12 +49,15 @@ export function MissingPersonForm() {
   const [submitting, setSubmitting] = useState(false);
   const [locating, setLocating] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
+  const [duplicates, setDuplicates] = useState<DuplicateCandidate[]>([]);
+  const [checkingDup, setCheckingDup] = useState(false);
 
   const form = useForm<MissingPersonInput>({
     resolver: zodResolver(missingPersonSchema),
     defaultValues: {
       nombre: "",
       apellido: "",
+      documento: "",
       edad_aprox: "",
       ciudad: "",
       estado_region: "",
@@ -93,7 +102,45 @@ export function MissingPersonForm() {
     );
   }
 
+  // Busca reportes parecidos (por documento o nombre) para evitar duplicados.
+  async function checkDuplicates() {
+    const { documento, nombre, apellido } = form.getValues();
+    if (!documento.trim() && !apellido.trim()) {
+      setDuplicates([]);
+      return;
+    }
+    setCheckingDup(true);
+    try {
+      const found = await buscarPosiblesDuplicados({
+        documento,
+        nombre,
+        apellido,
+      });
+      setDuplicates(found);
+    } finally {
+      setCheckingDup(false);
+    }
+  }
+
+  // Envío con verificación de duplicados: si hay parecidos, muestra el panel.
   async function onSubmit(values: MissingPersonInput) {
+    setSubmitting(true);
+    const found = await buscarPosiblesDuplicados({
+      documento: values.documento,
+      nombre: values.nombre,
+      apellido: values.apellido,
+    });
+    if (found.length > 0) {
+      setDuplicates(found);
+      setSubmitting(false);
+      toast.message(t("dupTitle"));
+      return;
+    }
+    await createPerson(values);
+  }
+
+  // Creación real (sin verificar duplicados): tras confirmar que no lo es.
+  async function createPerson(values: MissingPersonInput) {
     setSubmitting(true);
     try {
       let foto_url = "";
@@ -188,13 +235,129 @@ export function MissingPersonForm() {
                 <FormItem>
                   <FormLabel>{t("label.apellido")} *</FormLabel>
                   <FormControl>
-                    <Input className="h-11 text-base" {...field} />
+                    <Input
+                      className="h-11 text-base"
+                      {...field}
+                      onBlur={() => {
+                        field.onBlur();
+                        void checkDuplicates();
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
+
+          <FormField
+            control={form.control}
+            name="documento"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("label.documento")}</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-11 text-base"
+                    inputMode="numeric"
+                    placeholder={t("ph.documento")}
+                    {...field}
+                    onChange={(e) =>
+                      field.onChange(e.target.value.replace(/\D/g, ""))
+                    }
+                    onBlur={() => {
+                      field.onBlur();
+                      void checkDuplicates();
+                    }}
+                  />
+                </FormControl>
+                <FormDescription>{t("documentoHint")}</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {checkingDup ? (
+            <p className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Loader2 className="size-4 animate-spin" />
+              {t("dupChecking")}
+            </p>
+          ) : null}
+
+          {duplicates.length > 0 ? (
+            <div className="space-y-3 rounded-xl border border-warning/50 bg-warning/5 p-4">
+              <div>
+                <h3 className="flex items-center gap-2 font-semibold">
+                  <Users className="size-5 text-warning" />
+                  {t("dupTitle")}
+                </h3>
+                <p className="mt-1 text-sm text-muted-foreground text-pretty">
+                  {t("dupIntro")}
+                </p>
+              </div>
+              <ul className="space-y-2">
+                {duplicates.map((d) => {
+                  const lugar = [d.ciudad, d.estado_region]
+                    .filter(Boolean)
+                    .join(", ");
+                  return (
+                    <li key={d.id}>
+                      <Link
+                        href={`/desaparecidos/${d.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 rounded-lg border bg-card p-3 transition-colors hover:border-primary"
+                      >
+                        <div className="relative size-12 shrink-0 overflow-hidden rounded-lg bg-muted">
+                          {d.foto_url ? (
+                            <Image
+                              src={d.foto_url}
+                              alt=""
+                              fill
+                              sizes="48px"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="flex size-full items-center justify-center text-muted-foreground">
+                              <User className="size-6" aria-hidden />
+                            </div>
+                          )}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate font-medium">
+                            {d.nombre} {d.apellido}
+                          </p>
+                          <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground">
+                            <StatusBadge estado={d.estado} />
+                            {lugar ? <span>{lugar}</span> : null}
+                            {d.documento_masked ? (
+                              <span>
+                                {t("dupDocument", { doc: d.documento_masked })}
+                              </span>
+                            ) : null}
+                          </div>
+                        </div>
+                        <span className="shrink-0 text-sm text-primary">
+                          {t("dupView")}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={() => {
+                  setDuplicates([]);
+                  void form.handleSubmit(createPerson)();
+                }}
+              >
+                {t("dupContinue")}
+              </Button>
+            </div>
+          ) : null}
 
           <div className="grid gap-5 sm:grid-cols-3">
             <FormField

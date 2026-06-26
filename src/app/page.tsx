@@ -1,8 +1,18 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, HeartHandshake, Hospital, LifeBuoy, MapPin, Search, Users } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  HeartHandshake,
+  Hospital,
+  LifeBuoy,
+  MapPin,
+  Search,
+  UserPlus,
+  Users,
+} from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
-import { Button } from "@/components/ui/button";
+import { StatsBar } from "@/components/home/stats-bar";
 import { mainNav, reportHref } from "@/config/nav";
 import { getActiveEvent } from "@/lib/events";
 
@@ -22,6 +32,31 @@ export default async function HomePage() {
   const t = await getTranslations("home");
   const tNav = await getTranslations("nav");
   const event = await getActiveEvent();
+
+  // Tres acciones gigantes: lo único que importa en los primeros 5 segundos.
+  const actions = [
+    {
+      href: reportHref,
+      icon: UserPlus,
+      label: t("ctaReport"),
+      sub: t("actionReportSub"),
+      primary: true,
+    },
+    {
+      href: "/buscar",
+      icon: Search,
+      label: t("ctaSearch"),
+      sub: t("actionSearchSub"),
+      primary: false,
+    },
+    {
+      href: "/ayuda",
+      icon: HeartHandshake,
+      label: t("ctaHelp"),
+      sub: t("actionHelpSub"),
+      primary: false,
+    },
+  ];
 
   return (
     <div className="mx-auto max-w-5xl px-4">
@@ -46,8 +81,8 @@ export default async function HomePage() {
         </Link>
       ) : null}
 
-      {/* Hero */}
-      <section className="py-12 sm:py-16">
+      {/* Hero corto */}
+      <section className="pt-10 pb-2 sm:pt-14">
         <div className="border-l-2 border-foreground/10 pl-5 sm:pl-7">
           <p className="eyebrow">
             <span className="flag-stripe h-3.5 w-5 rounded-[3px]" aria-hidden />
@@ -59,29 +94,77 @@ export default async function HomePage() {
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty">
             {t("heroSubtitle")}
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button
-              render={<Link href={reportHref} />}
-              size="lg"
-              className="h-auto min-h-12 w-full min-w-0 gap-2 px-6 py-3 text-base leading-snug whitespace-normal text-center sm:w-auto"
-            >
-              <span className="min-w-0 text-balance">{t("ctaReport")}</span>
-              <ArrowRight className="size-5 shrink-0" />
-            </Button>
-            <Button
-              render={<Link href="/buscar" />}
-              size="lg"
-              variant="outline"
-              className="h-auto min-h-12 w-full min-w-0 px-6 py-3 text-base leading-snug whitespace-normal text-center sm:w-auto"
-            >
-              {t("ctaSearch")}
-            </Button>
-          </div>
         </div>
       </section>
 
+      {/* Tres acciones gigantes */}
+      <section className="mt-8">
+        <div className="grid gap-3 sm:grid-cols-3">
+          {actions.map((a) => {
+            const Icon = a.icon;
+            return (
+              <Link
+                key={a.href}
+                href={a.href}
+                className={`group flex min-h-32 flex-col justify-between gap-4 rounded-2xl border p-6 transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring ${
+                  a.primary
+                    ? "border-primary bg-primary text-primary-foreground hover:bg-primary/90"
+                    : "bg-card hover:border-primary"
+                }`}
+              >
+                <Icon className="size-8 shrink-0" aria-hidden />
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-lg font-semibold leading-tight text-balance">
+                      {a.label}
+                    </span>
+                    <ArrowRight className="size-5 shrink-0 transition-transform group-hover:translate-x-0.5" />
+                  </div>
+                  <p
+                    className={`mt-1 text-sm text-pretty ${
+                      a.primary
+                        ? "text-primary-foreground/80"
+                        : "text-muted-foreground"
+                    }`}
+                  >
+                    {a.sub}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Contador de confianza (oculto si todavía no hay datos) */}
+      <StatsBar />
+
+      {/* Vista previa del mapa (enlace ligero, sin cargar Leaflet en 2G) */}
+      <section className="mt-4">
+        <Link
+          href="/mapa"
+          className="group flex items-center gap-4 rounded-2xl border bg-card p-6 transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
+        >
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-xl border text-foreground transition-colors group-hover:border-primary group-hover:text-primary">
+            <MapPin className="size-6" aria-hidden />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="font-semibold tracking-tight">
+              {t("mapPreviewTitle")}
+            </h2>
+            <p className="mt-0.5 text-sm text-muted-foreground text-pretty">
+              {t("mapPreviewSub")}
+            </p>
+          </div>
+          <span className="hidden items-center gap-1 text-sm text-muted-foreground group-hover:text-foreground sm:inline-flex">
+            {t("mapPreviewCta")}
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+          </span>
+        </Link>
+      </section>
+
       {/* Servicios (directorio con separadores hairline) */}
-      <section className="border-t py-12 sm:py-14">
+      <section className="mt-12 border-t py-12 sm:py-14">
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="eyebrow">{t("servicesLabel")}</p>

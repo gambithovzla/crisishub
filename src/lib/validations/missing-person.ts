@@ -30,6 +30,12 @@ export const missingPersonSchema = z.object({
   estado_region: z.string().trim().max(80),
   descripcion: z.string().trim().max(2000),
 
+  // Documento de identidad (opcional): SOLO dígitos, para evitar duplicados.
+  documento: z
+    .string()
+    .trim()
+    .regex(/^\d{0,20}$/, "Solo números (cédula o pasaporte)"),
+
   // Familiar que reporta (obligatorio)
   familiar_nombre: z.string().trim().min(1, "Escribe tu nombre").max(80),
   familiar_telefono: z

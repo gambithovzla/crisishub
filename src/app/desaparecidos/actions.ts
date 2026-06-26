@@ -12,9 +12,14 @@ import { tipSchema, type TipInput } from "@/lib/validations/tip";
 import { checkRateLimit, RATE_LIMIT_MESSAGE } from "@/lib/rate-limit";
 import { verifyCaptcha, CAPTCHA_ERROR } from "@/lib/captcha";
 import { cleanPhotoUrl } from "@/lib/security";
+import type { DuplicateCandidate } from "@/lib/supabase/types";
 
 const orNull = (s: string) => (s.trim() === "" ? null : s.trim());
 const numOrNull = (s: string) => (s.trim() === "" ? null : Number(s));
+const digitsOrNull = (s: string) => {
+  const d = (s ?? "").replace(/\D/g, "");
+  return d === "" ? null : d;
+};
 
 export type CreateResult =
   | { ok: true; id: number }
@@ -56,6 +61,7 @@ export async function createMissingPerson(
       descripcion: orNull(v.descripcion),
       familiar_nombre: v.familiar_nombre,
       familiar_telefono: v.familiar_telefono,
+      documento: digitsOrNull(v.documento),
       ultima_ubicacion_texto: orNull(v.ultima_ubicacion_texto),
       ultima_lat: numOrNull(v.ultima_lat),
       ultima_lng: numOrNull(v.ultima_lng),
@@ -129,4 +135,34 @@ export async function createTip(
 
   revalidatePath(`/desaparecidos/${personId}`);
   return { ok: true };
+}
+
+/**
+ * Busca reportes existentes que probablemente sean la misma persona, para
+ * evitar duplicados: match exacto por documento o nombre muy parecido.
+ */
+export async function buscarPosiblesDuplicados(input: {
+  documento: string;
+  nombre: string;
+  apellido: string;
+}): Promise<DuplicateCandidate[]> {
+  const documento = (input.documento ?? "").replace(/\D/g, "");
+  const nombre = (input.nombre ?? "").trim();
+  const apellido = (input.apellido ?? "").trim();
+
+  // Sin datos suficientes no buscamos.
+  if (documento === "" && nombre === "" && apellido === "") return [];
+
+  const event = await getActiveEvent();
+  if (!event) return [];
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("posibles_duplicados", {
+    p_event_id: event.id,
+    p_documento: documento,
+    p_nombre: nombre,
+    p_apellido: apellido,
+  });
+  if (error || !data) return [];
+  return data as DuplicateCandidate[];
 }

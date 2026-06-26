@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import type { MapMarker } from "@/lib/supabase/types";
+import type { MapMarker, MissingLocation } from "@/lib/supabase/types";
 
 // Carga diferida sin SSR: Leaflet necesita `window`, y así no penaliza el 2G.
 const CrisisMap = dynamic(() => import("./crisis-map"), {
@@ -13,6 +13,7 @@ const CrisisMap = dynamic(() => import("./crisis-map"), {
 
 export function MapView(props: {
   markers: MapMarker[];
+  people: MissingLocation[];
   center: { lat: number; lng: number; zoom: number };
 }) {
   return <CrisisMap {...props} />;

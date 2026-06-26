@@ -24,7 +24,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { createMarker } from "@/app/mapa/actions";
 import { compressAndUploadPhoto } from "@/lib/upload";
 import { MARKER_TYPES, markerMeta } from "@/lib/markers";
-import type { MapMarker, MarkerType } from "@/lib/supabase/types";
+import type {
+  MapMarker,
+  MarkerType,
+  MissingLocation,
+  PersonStatus,
+} from "@/lib/supabase/types";
 
 const selectClass =
   "flex h-11 w-full rounded-lg border border-input bg-background px-3 text-base outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50";
@@ -37,6 +42,23 @@ function pinIcon(tipo: MarkerType, temp = false) {
     iconSize: [34, 34],
     iconAnchor: [17, 17],
     popupAnchor: [0, -18],
+  });
+}
+
+const PERSON_STATUS_COLOR: Record<PersonStatus, string> = {
+  desaparecido: "#dc2626",
+  encontrado_vivo: "#16a34a",
+  fallecido: "#4b5563",
+};
+
+function personIcon(estado: PersonStatus) {
+  const color = PERSON_STATUS_COLOR[estado];
+  return L.divIcon({
+    className: "",
+    html: `<div style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9999px 9999px 9999px 2px;background:${color};border:2px solid white;box-shadow:0 1px 5px rgba(0,0,0,.45);font-size:16px;color:white">👤</div>`,
+    iconSize: [32, 32],
+    iconAnchor: [16, 30],
+    popupAnchor: [0, -28],
   });
 }
 
@@ -65,9 +87,11 @@ type Center = { lat: number; lng: number; zoom: number };
 
 export default function CrisisMap({
   markers,
+  people,
   center,
 }: {
   markers: MapMarker[];
+  people: MissingLocation[];
   center: Center;
 }) {
   const t = useTranslations("map");
@@ -77,6 +101,7 @@ export default function CrisisMap({
   const [active, setActive] = useState<Set<MarkerType>>(
     () => new Set(MARKER_TYPES),
   );
+  const [showPeople, setShowPeople] = useState(true);
   const [adding, setAdding] = useState(false);
   const [pos, setPos] = useState<{ lat: number; lng: number } | null>(null);
 
@@ -268,6 +293,21 @@ export default function CrisisMap({
             </button>
           );
         })}
+        {people.length > 0 ? (
+          <button
+            type="button"
+            onClick={() => setShowPeople((v) => !v)}
+            aria-pressed={showPeople}
+            className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors ${
+              showPeople
+                ? "border-primary bg-primary/10 text-foreground"
+                : "border-input text-muted-foreground opacity-60"
+            }`}
+          >
+            <span aria-hidden>👤</span>
+            {t("peopleLayer")} ({people.length})
+          </button>
+        ) : null}
       </div>
 
       {/* Mapa */}
@@ -315,6 +355,36 @@ export default function CrisisMap({
               </Popup>
             </Marker>
           ))}
+
+          {showPeople
+            ? people.map((p) => (
+                <Marker
+                  key={`person-${p.id}`}
+                  position={[p.ultima_lat, p.ultima_lng]}
+                  icon={personIcon(p.estado)}
+                >
+                  <Popup>
+                    <div className="space-y-1">
+                      <p className="font-semibold">
+                        {p.nombre} {p.apellido}
+                      </p>
+                      <p className="text-xs">{tm(`status.${p.estado}`)}</p>
+                      {p.ultima_ubicacion_texto ? (
+                        <p className="text-xs text-muted-foreground">
+                          {p.ultima_ubicacion_texto}
+                        </p>
+                      ) : null}
+                      <a
+                        href={`/desaparecidos/${p.id}`}
+                        className="inline-block text-primary underline underline-offset-2"
+                      >
+                        {t("viewProfile")}
+                      </a>
+                    </div>
+                  </Popup>
+                </Marker>
+              ))
+            : null}
 
           {pos ? (
             <Marker position={[pos.lat, pos.lng]} icon={pinIcon(tipo, true)} />

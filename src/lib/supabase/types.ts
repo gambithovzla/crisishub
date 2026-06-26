@@ -131,6 +131,9 @@ export interface Database {
           ultimo_contacto_actividad: string | null;
           familiar_nombre: string;
           familiar_telefono: string;
+          documento: string | null;
+          documento_tipo: DocumentType | null;
+          documento_norm: string | null;
           estado: PersonStatus;
           moderation: ModerationStatus;
           merged_into_id: number | null;
@@ -154,6 +157,8 @@ export interface Database {
           ultimo_contacto_actividad?: string | null;
           familiar_nombre: string;
           familiar_telefono: string;
+          documento?: string | null;
+          documento_tipo?: DocumentType | null;
           estado?: PersonStatus;
           moderation?: ModerationStatus;
           merged_into_id?: number | null;
@@ -496,6 +501,26 @@ export interface Database {
           created_at: string;
         }[];
       };
+      posibles_duplicados: {
+        Args: {
+          p_event_id: number;
+          p_documento?: string;
+          p_nombre?: string;
+          p_apellido?: string;
+        };
+        Returns: {
+          id: number;
+          nombre: string;
+          apellido: string;
+          foto_url: string | null;
+          ciudad: string | null;
+          estado_region: string | null;
+          estado: PersonStatus;
+          documento_masked: string | null;
+          exact_doc: boolean;
+          score: number;
+        }[];
+      };
     };
     Enums: {
       moderation_status: ModerationStatus;
@@ -538,3 +563,11 @@ export type HealthFacility = Tables<"health_facilities">;
 export type PatientRecord = Tables<"patient_records">;
 export type PatientPublic =
   Database["public"]["Functions"]["buscar_pacientes"]["Returns"][number];
+export type DuplicateCandidate =
+  Database["public"]["Functions"]["posibles_duplicados"]["Returns"][number];
+
+/** Persona desaparecida con su última ubicación conocida (para el mapa). */
+export type MissingLocation = Pick<
+  MissingPerson,
+  "id" | "nombre" | "apellido" | "foto_url" | "estado" | "ultima_ubicacion_texto"
+> & { ultima_lat: number; ultima_lng: number };

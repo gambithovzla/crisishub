@@ -14,9 +14,12 @@ import {
 import { getTranslations } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
+import { ShareButton } from "@/components/share-button";
+import { CaseTimeline } from "@/components/missing/case-timeline";
 import { StatusBadge } from "@/components/missing/status-badge";
 import { TipsList } from "@/components/missing/tips-list";
 import { createClient } from "@/lib/supabase/server";
+import { absoluteUrl } from "@/lib/site";
 import type { MissingPerson } from "@/lib/supabase/types";
 
 type Params = { params: Promise<{ id: string }> };
@@ -144,6 +147,17 @@ export default async function PersonDetailPage({ params }: Params) {
         <Info className="size-6" />
         {t("haveInfo")}
       </Button>
+
+      {/* Compartir (cada vez que alguien comparte, crece la difusión) */}
+      <ShareButton
+        className="mt-3"
+        url={absoluteUrl(`/desaparecidos/${person.id}`)}
+        title={nombre}
+        text={t("shareText", { name: nombre, place: lugar || "—" })}
+      />
+
+      {/* Cronología del caso */}
+      <CaseTimeline person={person} />
 
       {/* Pistas aportadas por la gente */}
       <TipsList personId={person.id} />
