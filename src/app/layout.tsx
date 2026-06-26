@@ -19,6 +19,7 @@ const geistSans = Geist({
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("app");
   return {
+    metadataBase: new URL("https://vzla.lat"),
     title: {
       default: `${t("name")} — ${t("tagline")}`,
       template: `%s · ${t("name")}`,
@@ -28,6 +29,14 @@ export async function generateMetadata(): Promise<Metadata> {
     manifest: "/manifest.webmanifest",
     appleWebApp: { capable: true, statusBarStyle: "default", title: t("name") },
     icons: { icon: "/icon.svg", apple: "/apple-icon.png" },
+    openGraph: {
+      type: "website",
+      locale: "es_VE",
+      siteName: t("name"),
+      title: `${t("name")} — ${t("tagline")}`,
+      description: t("description"),
+    },
+    twitter: { card: "summary" },
   };
 }
 
