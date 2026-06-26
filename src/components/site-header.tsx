@@ -25,8 +25,18 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const isActive = (href: string) =>
-    pathname === href || pathname.startsWith(`${href}/`);
+  const isActive = (href: string) => {
+    if (pathname === href) return true;
+    if (!pathname.startsWith(`${href}/`)) return false;
+    // Ruta anidada con ítem propio (p. ej. /ayuda vs /ayuda/acopio).
+    const moreSpecific = mainNav.some(
+      (item) =>
+        item.href !== href &&
+        item.href.startsWith(`${href}/`) &&
+        (pathname === item.href || pathname.startsWith(`${item.href}/`)),
+    );
+    return !moreSpecific;
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">

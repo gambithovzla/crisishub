@@ -10,6 +10,7 @@
     "map": "Mapa",
     "health": "Hospitales",
     "professionals": "Profesionales",
+    "acopio": "Acopio",
     "help": "Ayuda",
     "report": "Reportar desaparecido",
     "menu": "Menú",
@@ -46,7 +47,8 @@
     "moduleMapDesc": "Hospitales, refugios y zonas de riesgo.",
     "moduleHealthDesc": "Busca pacientes y consulta centros de salud.",
     "moduleProfessionalsDesc": "Psicólogos y médicos que atienden gratis.",
-    "moduleHelpDesc": "Pide u ofrece ayuda."
+    "moduleHelpDesc": "Pide u ofrece ayuda.",
+    "moduleAcopioDesc": "Dónde donar desde Lima, Miami, Santiago y más."
   },
   "footer": {
     "tagline": "Información de emergencia, en un solo lugar.",

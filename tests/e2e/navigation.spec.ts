@@ -7,6 +7,7 @@ const pages: { path: string; heading: RegExp }[] = [
   { path: "/hospitales", heading: /Hospital/i },
   { path: "/profesionales", heading: /profesional/i },
   { path: "/ayuda", heading: /Ayuda/i },
+  { path: "/ayuda/acopio", heading: /acopio/i },
 ];
 
 test.describe("Navegación de los módulos", () => {

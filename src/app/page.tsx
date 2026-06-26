@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   ArrowUpRight,
+  Globe,
   HeartHandshake,
   Hospital,
   LifeBuoy,
@@ -25,6 +26,7 @@ const moduleMeta: Record<string, { icon: typeof Users; descKey: string }> = {
     icon: HeartHandshake,
     descKey: "moduleProfessionalsDesc",
   },
+  acopio: { icon: Globe, descKey: "moduleAcopioDesc" },
   help: { icon: LifeBuoy, descKey: "moduleHelpDesc" },
 };
 
