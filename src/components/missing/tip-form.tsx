@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createTip } from "@/app/desaparecidos/actions";
+import { Captcha, CAPTCHA_ENABLED } from "@/components/captcha";
 import { compressAndUploadPhoto } from "@/lib/upload";
 import { tipSchema, type TipInput } from "@/lib/validations/tip";
 
@@ -33,6 +34,7 @@ export function TipForm({ personId }: { personId: number }) {
   const [preview, setPreview] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [locating, setLocating] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
 
   const form = useForm<TipInput>({
     resolver: zodResolver(tipSchema),
@@ -88,7 +90,11 @@ export function TipForm({ personId }: { personId: number }) {
           return;
         }
       }
-      const result = await createTip(personId, { ...values, foto_url });
+      const result = await createTip(
+        personId,
+        { ...values, foto_url },
+        captchaToken,
+      );
       if (!result.ok) {
         toast.error(result.error);
         setSubmitting(false);
@@ -231,11 +237,12 @@ export function TipForm({ personId }: { personId: number }) {
           />
         </div>
 
+        <Captcha onToken={setCaptchaToken} />
         <Button
           type="submit"
           size="lg"
           className="h-14 w-full text-base"
-          disabled={submitting}
+          disabled={submitting || (CAPTCHA_ENABLED && !captchaToken)}
         >
           {submitting ? (
             <>

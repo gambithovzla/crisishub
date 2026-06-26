@@ -22,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createMissingPerson } from "@/app/desaparecidos/actions";
+import { Captcha, CAPTCHA_ENABLED } from "@/components/captcha";
 import { compressAndUploadPhoto } from "@/lib/upload";
 import { ESTADOS_VENEZUELA } from "@/lib/venezuela";
 import {
@@ -41,6 +42,7 @@ export function MissingPersonForm() {
   const [preview, setPreview] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [locating, setLocating] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
 
   const form = useForm<MissingPersonInput>({
     resolver: zodResolver(missingPersonSchema),
@@ -104,7 +106,10 @@ export function MissingPersonForm() {
           return;
         }
       }
-      const result = await createMissingPerson({ ...values, foto_url });
+      const result = await createMissingPerson(
+        { ...values, foto_url },
+        captchaToken,
+      );
       if (!result.ok) {
         toast.error(result.error);
         setSubmitting(false);
@@ -418,11 +423,12 @@ export function MissingPersonForm() {
           </div>
         </section>
 
+        <Captcha onToken={setCaptchaToken} />
         <Button
           type="submit"
           size="lg"
           className="h-14 w-full text-base"
-          disabled={submitting}
+          disabled={submitting || (CAPTCHA_ENABLED && !captchaToken)}
         >
           {submitting ? (
             <>

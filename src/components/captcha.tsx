@@ -4,6 +4,9 @@ import { useEffect, useRef } from "react";
 
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
+/** true si el captcha está activado (hay site key configurada). */
+export const CAPTCHA_ENABLED = !!SITE_KEY;
+
 declare global {
   interface Window {
     turnstile?: {

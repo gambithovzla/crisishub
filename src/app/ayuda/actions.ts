@@ -9,6 +9,7 @@ import {
   type HelpRequestInput,
 } from "@/lib/validations/help";
 import { checkRateLimit, RATE_LIMIT_MESSAGE } from "@/lib/rate-limit";
+import { verifyCaptcha, CAPTCHA_ERROR } from "@/lib/captcha";
 
 export type HelpResult =
   | { ok: true; id: number }
@@ -17,9 +18,13 @@ export type HelpResult =
 /** Crea una solicitud de ayuda (necesito/ofrezco) en el evento activo. */
 export async function createHelpRequest(
   input: HelpRequestInput,
+  captchaToken: string,
 ): Promise<HelpResult> {
   if (!(await checkRateLimit("help_create"))) {
     return { ok: false, error: RATE_LIMIT_MESSAGE };
+  }
+  if (!(await verifyCaptcha(captchaToken))) {
+    return { ok: false, error: CAPTCHA_ERROR };
   }
   const parsed = helpRequestSchema.safeParse(input);
   if (!parsed.success) {

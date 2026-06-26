@@ -10,6 +10,7 @@ import {
 } from "@/lib/validations/missing-person";
 import { tipSchema, type TipInput } from "@/lib/validations/tip";
 import { checkRateLimit, RATE_LIMIT_MESSAGE } from "@/lib/rate-limit";
+import { verifyCaptcha, CAPTCHA_ERROR } from "@/lib/captcha";
 import { cleanPhotoUrl } from "@/lib/security";
 
 const orNull = (s: string) => (s.trim() === "" ? null : s.trim());
@@ -22,9 +23,13 @@ export type CreateResult =
 /** Crea un reporte de persona desaparecida en el evento activo. */
 export async function createMissingPerson(
   input: MissingPersonInput,
+  captchaToken: string,
 ): Promise<CreateResult> {
   if (!(await checkRateLimit("missing_create"))) {
     return { ok: false, error: RATE_LIMIT_MESSAGE };
+  }
+  if (!(await verifyCaptcha(captchaToken))) {
+    return { ok: false, error: CAPTCHA_ERROR };
   }
   const parsed = missingPersonSchema.safeParse(input);
   if (!parsed.success) {
@@ -79,9 +84,13 @@ export type TipResult = { ok: true } | { ok: false; error: string };
 export async function createTip(
   personId: number,
   input: TipInput,
+  captchaToken: string,
 ): Promise<TipResult> {
   if (!(await checkRateLimit("tip_create"))) {
     return { ok: false, error: RATE_LIMIT_MESSAGE };
+  }
+  if (!(await verifyCaptcha(captchaToken))) {
+    return { ok: false, error: CAPTCHA_ERROR };
   }
   const parsed = tipSchema.safeParse(input);
   if (!parsed.success) {

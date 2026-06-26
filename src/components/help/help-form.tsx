@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createHelpRequest } from "@/app/ayuda/actions";
+import { Captcha, CAPTCHA_ENABLED } from "@/components/captcha";
 import { HELP_CATEGORIES, helpCategoryEmoji } from "@/lib/help";
 import {
   helpRequestSchema,
@@ -36,6 +37,7 @@ export function HelpForm({ modo }: { modo: HelpMode }) {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [locating, setLocating] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
 
   const form = useForm<HelpRequestInput>({
     resolver: zodResolver(helpRequestSchema),
@@ -73,7 +75,7 @@ export function HelpForm({ modo }: { modo: HelpMode }) {
 
   async function onSubmit(values: HelpRequestInput) {
     setSubmitting(true);
-    const result = await createHelpRequest(values);
+    const result = await createHelpRequest(values, captchaToken);
     if (!result.ok) {
       toast.error(result.error);
       setSubmitting(false);
@@ -188,11 +190,12 @@ export function HelpForm({ modo }: { modo: HelpMode }) {
           )}
         />
 
+        <Captcha onToken={setCaptchaToken} />
         <Button
           type="submit"
           size="lg"
           className="h-14 w-full text-base"
-          disabled={submitting}
+          disabled={submitting || (CAPTCHA_ENABLED && !captchaToken)}
         >
           {submitting ? (
             <>
