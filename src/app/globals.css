@@ -116,9 +116,9 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.21 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  /* Azul más claro para contraste sobre fondo oscuro */
-  --primary: oklch(0.7 0.13 248);
-  --primary-foreground: oklch(0.16 0.02 248);
+  /* Azul vivo con texto blanco para máximo contraste en modo oscuro */
+  --primary: oklch(0.58 0.22 248);
+  --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
