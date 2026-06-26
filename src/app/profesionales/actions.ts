@@ -11,9 +11,7 @@ import {
   type VolunteerInput,
 } from "@/lib/validations/volunteer";
 
-export type VolunteerResult =
-  | { ok: true; id: number }
-  | { ok: false; error: string };
+export type VolunteerResult = { ok: true } | { ok: false; error: string };
 
 /** Registra un profesional voluntario (queda sin verificar hasta revisión del staff). */
 export async function createVolunteer(
@@ -40,29 +38,27 @@ export async function createVolunteer(
 
   const orNull = (s: string) => (s.trim() === "" ? null : s.trim());
 
+  // No encadenamos .select(): la tabla no es legible por el público (solo staff),
+  // así que un RETURNING fallaría la RLS. Basta con comprobar el error.
   const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("volunteers")
-    .insert({
-      event_id: event.id,
-      nombre: v.nombre,
-      profesion: v.profesion,
-      especialidad: orNull(v.especialidad),
-      modalidades: v.modalidades,
-      zona: orNull(v.zona),
-      idiomas: orNull(v.idiomas),
-      bio: orNull(v.bio),
-      contacto: v.contacto,
-      colegio_numero: orNull(v.colegio_numero),
-      credencial_path: orNull(v.credencial_path),
-    })
-    .select("id")
-    .single();
+  const { error } = await supabase.from("volunteers").insert({
+    event_id: event.id,
+    nombre: v.nombre,
+    profesion: v.profesion,
+    especialidad: orNull(v.especialidad),
+    modalidades: v.modalidades,
+    zona: orNull(v.zona),
+    idiomas: orNull(v.idiomas),
+    bio: orNull(v.bio),
+    contacto: v.contacto,
+    colegio_numero: orNull(v.colegio_numero),
+    credencial_path: orNull(v.credencial_path),
+  });
 
-  if (error || !data) {
+  if (error) {
     return { ok: false, error: "No se pudo registrar. Inténtalo de nuevo." };
   }
 
   revalidatePath("/profesionales");
-  return { ok: true, id: data.id };
+  return { ok: true };
 }
