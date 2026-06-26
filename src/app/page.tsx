@@ -63,16 +63,16 @@ export default async function HomePage() {
             <Button
               render={<Link href={reportHref} />}
               size="lg"
-              className="h-auto min-h-12 w-full px-6 py-3 text-base leading-snug whitespace-normal text-center sm:w-auto"
+              className="h-auto min-h-12 w-full min-w-0 gap-2 px-6 py-3 text-base leading-snug whitespace-normal text-center sm:w-auto"
             >
-              {t("ctaReport")}
-              <ArrowRight className="size-5" />
+              <span className="min-w-0 text-balance">{t("ctaReport")}</span>
+              <ArrowRight className="size-5 shrink-0" />
             </Button>
             <Button
               render={<Link href="/buscar" />}
               size="lg"
               variant="outline"
-              className="h-auto min-h-12 w-full px-6 py-3 text-base leading-snug whitespace-normal text-center sm:w-auto"
+              className="h-auto min-h-12 w-full min-w-0 px-6 py-3 text-base leading-snug whitespace-normal text-center sm:w-auto"
             >
               {t("ctaSearch")}
             </Button>
