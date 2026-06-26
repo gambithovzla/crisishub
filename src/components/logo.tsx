@@ -9,15 +9,18 @@ const FLAG_RED = "#ef3340";
 const PIN_PATH =
   "M12 1.4c-4.4 0-7.9 3.4-7.9 7.7 0 5.4 6.6 12.1 7.9 13.4 1.3-1.3 7.9-8 7.9-13.4 0-4.3-3.5-7.7-7.9-7.7z";
 
-// Arco de 8 estrellas blancas, como en la bandera (curva cóncava hacia arriba).
+// Arco de 8 estrellas: reflejo exacto del arco original pero con dirección correcta
+// (vértice hacia el amarillo). Centro reflejado a y=17.4, mismo radio 5.4, ángulos 215-325.
 const STAR_CENTERS = Array.from({ length: 8 }, (_, i) => {
-  const start = (35 * Math.PI) / 180;
-  const end = (145 * Math.PI) / 180;
+  const start = (215 * Math.PI) / 180;
+  const end = (325 * Math.PI) / 180;
   const angle = start + ((end - start) * i) / 7;
   const cx = 12 + 5.4 * Math.cos(angle);
-  const cy = 6.6 + 5.4 * Math.sin(angle);
+  const cy = 17.4 + 5.4 * Math.sin(angle);
   return { cx, cy };
 });
+
+const STAR_RADIUS = 0.95;
 
 function starPath(cx: number, cy: number, r: number) {
   const inner = r * 0.42;
@@ -50,6 +53,9 @@ export function Logo({ className }: { className?: string }) {
         <clipPath id="ch-pin">
           <path d={PIN_PATH} />
         </clipPath>
+        <clipPath id="ch-blue">
+          <rect x="0" y="8" width="24" height="8" />
+        </clipPath>
       </defs>
 
       {/* Sombra/contorno sutil para definir el pin sobre cualquier fondo */}
@@ -66,9 +72,15 @@ export function Logo({ className }: { className?: string }) {
         <rect x="0" y="0" width="24" height="8" fill={FLAG_YELLOW} />
         <rect x="0" y="8" width="24" height="8" fill={FLAG_BLUE} />
         <rect x="0" y="16" width="24" height="8" fill={FLAG_RED} />
-        {STAR_CENTERS.map((s, i) => (
-          <path key={i} d={starPath(s.cx, s.cy, 0.95)} fill="#ffffff" />
-        ))}
+        <g clipPath="url(#ch-blue)">
+          {STAR_CENTERS.map((s, i) => (
+            <path
+              key={i}
+              d={starPath(s.cx, s.cy, STAR_RADIUS)}
+              fill="#ffffff"
+            />
+          ))}
+        </g>
       </g>
     </svg>
   );

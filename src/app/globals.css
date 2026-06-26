@@ -167,6 +167,17 @@
     /* Base 17px: ligeramente mayor para legibilidad en móvil */
     font-size: 106.25%;
     -webkit-text-size-adjust: 100%;
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  /* Selects nativos: el popup del SO respeta color-scheme del html */
+  select {
+    @apply bg-background text-foreground;
+  }
+  select option {
+    @apply bg-popover text-popover-foreground;
   }
   /* Foco de alta visibilidad estilo Gov.uk: contorno amarillo grueso */
   :focus-visible {

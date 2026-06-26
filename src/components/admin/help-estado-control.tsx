@@ -9,7 +9,7 @@ import { HELP_STATUSES } from "@/lib/help";
 import type { HelpStatus } from "@/lib/supabase/types";
 
 const selectClass =
-  "h-9 rounded-lg border border-input bg-transparent px-2 text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50";
+  "h-9 rounded-lg border border-input bg-background px-2 text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50";
 
 export function HelpEstadoControl({
   id,

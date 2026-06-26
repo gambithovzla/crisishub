@@ -31,7 +31,7 @@ import {
 } from "@/lib/validations/missing-person";
 
 const selectClass =
-  "flex h-11 w-full rounded-lg border border-input bg-transparent px-3 text-base outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-50";
+  "flex h-11 w-full rounded-lg border border-input bg-background px-3 text-base outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-50";
 
 export function MissingPersonForm() {
   const t = useTranslations("missing");
