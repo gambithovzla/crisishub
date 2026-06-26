@@ -47,7 +47,7 @@ export function Logo({ className }: { className?: string }) {
       viewBox="0 0 24 24"
       className={cn("size-7", className)}
       role="img"
-      aria-label="CrisisHub Venezuela"
+      aria-label="Venezuela hub"
     >
       <defs>
         <clipPath id="ch-pin">

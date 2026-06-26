@@ -43,6 +43,25 @@ insert into public.profiles (id, rol, nombre)
 values ('PEGA-EL-UUID-AQUI', 'admin', 'Tu nombre');
 ```
 
+### Solicitudes de moderadores (con tu aprobación)
+
+Ejecuta también `supabase/migrations/0006_staff_applications.sql`.
+
+En `.env.local` y en Vercel añade una clave secreta de invitación:
+
+```
+STAFF_INVITE_SECRET=una-clave-larga-y-aleatoria
+```
+
+Comparte **solo por canal privado** este enlace (no está en el menú del sitio):
+
+```
+https://www.vzla.lat/entrar/solicitud?invite=TU_CLAVE_SECRETA
+```
+
+La persona se registra ahí; tú apruebas o rechazas en **Panel → Solicitudes**
+(solo visible si tu perfil tiene rol `admin`).
+
 ## 4. Para producción (Vercel)
 
 Añade las **mismas variables** en Vercel:

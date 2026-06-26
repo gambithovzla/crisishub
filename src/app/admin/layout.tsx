@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { Globe, LayoutDashboard, LifeBuoy, LogOut, MapPin, MessageCircle, Users } from "lucide-react";
+import { Globe, LayoutDashboard, LifeBuoy, LogOut, MapPin, MessageCircle, UserPlus, Users } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { logout } from "@/app/admin/actions";
 import { requireStaff } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/server";
 
 export const adminNav = [
   { href: "/admin", key: "dashboard", icon: LayoutDashboard },
@@ -23,6 +24,29 @@ export default async function AdminLayout({
 }) {
   const profile = await requireStaff();
   const t = await getTranslations("admin");
+
+  let pendingApplications = 0;
+  if (profile.rol === "admin") {
+    const supabase = await createClient();
+    const { count } = await supabase
+      .from("staff_applications")
+      .select("*", { count: "exact", head: true })
+      .eq("estado", "pendiente");
+    pendingApplications = count ?? 0;
+  }
+
+  const navItems =
+    profile.rol === "admin"
+      ? [
+          ...adminNav,
+          {
+            href: "/admin/solicitudes" as const,
+            key: "applications" as const,
+            icon: UserPlus,
+            badge: pendingApplications,
+          },
+        ]
+      : adminNav;
 
   return (
     <div className="min-h-full">
@@ -42,7 +66,7 @@ export default async function AdminLayout({
           </form>
         </div>
         <nav className="mx-auto flex max-w-5xl gap-1 overflow-x-auto px-2 pb-2">
-          {adminNav.map((item) => (
+          {navItems.map((item) => (
             <Button
               key={item.href}
               render={<Link href={item.href} />}
@@ -52,6 +76,11 @@ export default async function AdminLayout({
             >
               <item.icon className="size-4" />
               {t(`section.${item.key}`)}
+              {"badge" in item && item.badge > 0 ? (
+                <span className="ml-1 rounded-full bg-primary px-1.5 py-0.5 text-[10px] font-semibold text-primary-foreground">
+                  {item.badge}
+                </span>
+              ) : null}
             </Button>
           ))}
         </nav>

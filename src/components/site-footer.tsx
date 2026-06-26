@@ -19,7 +19,6 @@ export async function SiteFooter() {
             <p className="flex items-center gap-2 font-semibold tracking-tight text-foreground">
               <Logo className="size-6" />
               {tApp("name")}
-              <span className="text-xs font-medium text-muted-foreground">VE</span>
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               {t("tagline")}

@@ -40,6 +40,8 @@ export type HelpCategory =
 export type HelpStatus = "pendiente" | "en_proceso" | "resuelta";
 export type UserRole = "admin" | "moderador";
 
+export type StaffApplicationStatus = "pendiente" | "aprobado" | "rechazado";
+
 type Timestamps = { created_at: string };
 
 export interface Database {
@@ -258,6 +260,32 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["profiles"]["Insert"]>;
         Relationships: [];
       };
+      staff_applications: {
+        Row: {
+          id: number;
+          user_id: string;
+          email: string;
+          nombre: string;
+          mensaje: string | null;
+          estado: StaffApplicationStatus;
+          reviewed_by: string | null;
+          reviewed_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          user_id: string;
+          email: string;
+          nombre: string;
+          mensaje?: string | null;
+          estado?: StaffApplicationStatus;
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["staff_applications"]["Insert"]
+        >;
+        Relationships: [];
+      };
       audit_log: {
         Row: {
           id: number;
@@ -293,6 +321,7 @@ export interface Database {
       help_category: HelpCategory;
       help_status: HelpStatus;
       user_role: UserRole;
+      staff_application_status: StaffApplicationStatus;
     };
   };
 }
@@ -312,3 +341,4 @@ export type MapMarker = Tables<"map_markers">;
 export type HelpRequest = Tables<"help_requests">;
 export type CollectionPoint = Tables<"collection_points">;
 export type Profile = Tables<"profiles">;
+export type StaffApplication = Tables<"staff_applications">;

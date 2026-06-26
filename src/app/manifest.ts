@@ -3,8 +3,8 @@ import type { MetadataRoute } from "next";
 // Manifest PWA — instalable y optimizado para uso offline/2G.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "CrisisHub — Información de emergencia",
-    short_name: "CrisisHub",
+    name: "Venezuela hub — Información de emergencia",
+    short_name: "Venezuela hub",
     description:
       "Plataforma ciudadana de respuesta rápida ante desastres naturales.",
     start_url: "/",

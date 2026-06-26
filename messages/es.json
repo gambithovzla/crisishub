@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "CrisisHub",
+    "name": "Venezuela hub",
     "tagline": "Información de emergencia, en un solo lugar",
     "description": "Plataforma ciudadana de respuesta rápida ante desastres naturales."
   },
@@ -278,7 +278,8 @@
       "tips": "Pistas",
       "markers": "Mapa",
       "help": "Ayuda",
-      "acopio": "Acopio"
+      "acopio": "Acopio",
+      "applications": "Solicitudes"
     },
     "role": {
       "admin": "Administrador",
@@ -310,6 +311,50 @@
     "anon": "Anónimo",
     "noContact": "Sin contacto",
     "tipFor": "Pista sobre",
-    "unknownPerson": "Ficha #{id}"
+    "unknownPerson": "Ficha #{id}",
+    "staffSignup": {
+      "title": "Solicitar acceso de moderador",
+      "intro": "Crea tu cuenta. Un administrador revisará tu solicitud antes de darte acceso al panel.",
+      "nombre": "Tu nombre",
+      "confirmPassword": "Confirmar contraseña",
+      "mensaje": "Mensaje (opcional)",
+      "mensajePlaceholder": "Cuéntanos cómo puedes ayudar en la moderación…",
+      "mensajeHint": "Solo lo verá el administrador que revise tu solicitud.",
+      "submit": "Enviar solicitud",
+      "privacyNote": "Esta página no aparece en el menú público. No compartas el enlace.",
+      "errors": {
+        "inviteInvalid": "Enlace de invitación no válido.",
+        "nombreInvalid": "Indica tu nombre (mínimo 2 caracteres).",
+        "emailInvalid": "Correo electrónico no válido.",
+        "passwordShort": "La contraseña debe tener al menos 8 caracteres.",
+        "passwordMismatch": "Las contraseñas no coinciden.",
+        "emailTaken": "Ya existe una cuenta con ese correo.",
+        "signupFailed": "No se pudo crear la solicitud. Intenta de nuevo."
+      }
+    },
+    "staffPending": {
+      "title": "Solicitud en revisión",
+      "intro": "Tu cuenta fue creada. Un administrador debe aprobar tu acceso antes de que puedas entrar al panel.",
+      "rejectedTitle": "Solicitud no aprobada",
+      "rejectedIntro": "Tu solicitud de acceso fue rechazada. Si crees que es un error, contacta al administrador del sitio.",
+      "backHome": "Volver al inicio"
+    },
+    "staffApplications": {
+      "title": "Solicitudes de acceso",
+      "intro": "Revisa y aprueba o rechaza quién puede moderar el sitio.",
+      "empty": "No hay solicitudes pendientes.",
+      "submittedAt": "Enviada el {date}",
+      "roleLabel": "Rol al aprobar",
+      "approve": "Aprobar",
+      "reject": "Rechazar",
+      "confirmReject": "¿Rechazar esta solicitud de acceso?",
+      "approved": "Acceso aprobado.",
+      "rejected": "Solicitud rechazada.",
+      "errors": {
+        "notFound": "La solicitud ya no existe.",
+        "alreadyReviewed": "Esta solicitud ya fue revisada.",
+        "alreadyStaff": "Este usuario ya tiene acceso de staff."
+      }
+    }
   }
 }

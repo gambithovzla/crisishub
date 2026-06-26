@@ -37,12 +37,7 @@ export function SiteHeader() {
           className="group flex items-center gap-2 font-semibold tracking-tight"
         >
           <Logo className="size-7 transition-transform group-hover:scale-105" />
-          <span className="text-lg">
-            {tApp("name")}
-            <span className="ml-1.5 align-middle text-xs font-medium text-muted-foreground">
-              VE
-            </span>
-          </span>
+          <span className="text-lg">{tApp("name")}</span>
         </Link>
 
         {/* Navegación de escritorio */}

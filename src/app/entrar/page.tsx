@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server";
 
 import { LoginForm } from "@/components/admin/login-form";
 import { Logo } from "@/components/logo";
-import { getProfile } from "@/lib/auth";
+import { getProfile, getStaffApplication, getUser } from "@/lib/auth";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
@@ -21,6 +21,17 @@ export default async function LoginPage({
   // Si ya es staff, directo al panel.
   const profile = await getProfile();
   if (profile) redirect("/admin");
+
+  const user = await getUser();
+  if (user) {
+    const application = await getStaffApplication();
+    if (
+      application?.estado === "pendiente" ||
+      application?.estado === "rechazado"
+    ) {
+      redirect("/entrar/pendiente");
+    }
+  }
 
   const t = await getTranslations("admin");
   const sp = await searchParams;

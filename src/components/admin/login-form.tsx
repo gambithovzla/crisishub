@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
+import { getPostLoginPathAction } from "@/app/entrar/solicitud/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,7 +32,8 @@ export function LoginForm({ next }: { next: string }) {
       setLoading(false);
       return;
     }
-    router.push(next || "/admin");
+    const dest = await getPostLoginPathAction(next || "/admin");
+    router.push(dest);
     router.refresh();
   }
 
