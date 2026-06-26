@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Toaster } from "@/components/ui/sonner";
+import { RegisterSW } from "@/components/register-sw";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,6 +26,8 @@ export async function generateMetadata(): Promise<Metadata> {
     description: t("description"),
     applicationName: t("name"),
     manifest: "/manifest.webmanifest",
+    appleWebApp: { capable: true, statusBarStyle: "default", title: t("name") },
+    icons: { icon: "/icon.svg", apple: "/apple-icon.png" },
   };
 }
 
@@ -43,6 +46,7 @@ export default async function RootLayout({
   const locale = await getLocale();
   const messages = await getMessages();
   const t = await getTranslations("nav");
+  const supabaseOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
   return (
     <html
@@ -51,6 +55,17 @@ export default async function RootLayout({
       className={`${geistSans.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
+        {/* Preconnect para acelerar imágenes y mapas en conexiones lentas (2G) */}
+        {supabaseOrigin ? (
+          <link rel="preconnect" href={supabaseOrigin} crossOrigin="" />
+        ) : null}
+        <link
+          rel="preconnect"
+          href="https://a.tile.openstreetmap.org"
+          crossOrigin=""
+        />
+        <link rel="dns-prefetch" href="https://b.tile.openstreetmap.org" />
+        <link rel="dns-prefetch" href="https://c.tile.openstreetmap.org" />
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider
             attribute="class"
@@ -69,6 +84,7 @@ export default async function RootLayout({
             <Toaster richColors position="top-center" />
           </ThemeProvider>
         </NextIntlClientProvider>
+        <RegisterSW />
       </body>
     </html>
   );
