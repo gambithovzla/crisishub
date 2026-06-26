@@ -1,9 +1,16 @@
 import type { LucideIcon } from "lucide-react";
-import { Hospital, LifeBuoy, MapPin, Search, Users } from "lucide-react";
+import {
+  HeartHandshake,
+  Hospital,
+  LifeBuoy,
+  MapPin,
+  Search,
+  Users,
+} from "lucide-react";
 
 export type NavItem = {
   /** Clave dentro del namespace de traducción "nav". */
-  key: "missing" | "search" | "map" | "help" | "health";
+  key: "missing" | "search" | "map" | "help" | "health" | "professionals";
   href: string;
   icon: LucideIcon;
 };
@@ -14,6 +21,7 @@ export const mainNav: NavItem[] = [
   { key: "search", href: "/buscar", icon: Search },
   { key: "map", href: "/mapa", icon: MapPin },
   { key: "health", href: "/hospitales", icon: Hospital },
+  { key: "professionals", href: "/profesionales", icon: HeartHandshake },
   { key: "help", href: "/ayuda", icon: LifeBuoy },
 ];
 

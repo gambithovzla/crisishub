@@ -9,6 +9,7 @@
     "search": "Buscar",
     "map": "Mapa",
     "health": "Hospitales",
+    "professionals": "Profesionales",
     "help": "Ayuda",
     "report": "Reportar desaparecido",
     "menu": "Menú",
@@ -33,6 +34,7 @@
     "moduleSearchDesc": "Busca entre los reportes existentes.",
     "moduleMapDesc": "Hospitales, refugios y zonas de riesgo.",
     "moduleHealthDesc": "Busca pacientes y consulta centros de salud.",
+    "moduleProfessionalsDesc": "Psicólogos y médicos que atienden gratis.",
     "moduleHelpDesc": "Pide o ofrece ayuda."
   },
   "footer": {
@@ -387,6 +389,7 @@
       "acopio": "Acopio",
       "facilities": "Centros",
       "patients": "Pacientes",
+      "professionals": "Profesionales",
       "applications": "Solicitudes"
     },
     "reporter": "Reportado por",
@@ -464,6 +467,62 @@
         "alreadyReviewed": "Esta solicitud ya fue revisada.",
         "alreadyStaff": "Este usuario ya tiene acceso de staff."
       }
+    }
+  },
+  "professionals": {
+    "title": "Apoyo de profesionales",
+    "intro": "Psicólogos y médicos que ofrecen atención GRATUITA durante la emergencia. Todos están verificados por un moderador. Si eres profesional, regístrate para ayudar.",
+    "registerCta": "Soy profesional, quiero ayudar",
+    "registerIntro": "Tu credencial es privada y solo la revisa un moderador para verificarte. Una vez verificado, aparecerás en el directorio para que la gente te contacte.",
+    "back": "Volver al directorio",
+    "all": "Todas",
+    "verified": "Verificado",
+    "languages": "Idiomas",
+    "license": "Colegiatura",
+    "empty": "Aún no hay profesionales verificados aquí. Si eres uno, regístrate.",
+    "success": "¡Registro enviado! Un moderador revisará tu credencial y te verificará pronto.",
+    "error": "Algo salió mal. Intenta de nuevo.",
+    "submit": "Enviar registro",
+    "submitting": "Enviando…",
+    "credentialRequired": "Sube tu credencial para poder verificarte.",
+    "credentialError": "No se pudo subir la credencial. Intenta con otra imagen.",
+    "credentialHint": "Foto de tu título, carnet del colegio o credencial profesional. Es PRIVADA: solo la ve un moderador para verificarte; nunca se muestra al público.",
+    "credentialChoose": "Subir credencial (foto)",
+    "profession": {
+      "psicologo": "Psicólogo/a",
+      "psiquiatra": "Psiquiatra",
+      "medico_general": "Médico general",
+      "pediatra": "Pediatra",
+      "enfermeria": "Enfermería",
+      "trabajo_social": "Trabajo social",
+      "nutricion": "Nutrición",
+      "fisioterapia": "Fisioterapia",
+      "odontologia": "Odontología",
+      "otro": "Otro"
+    },
+    "modalidad": {
+      "online": "En línea",
+      "telefono": "Teléfono",
+      "presencial": "Presencial",
+      "whatsapp": "WhatsApp"
+    },
+    "label": {
+      "name": "Nombre completo",
+      "profession": "Profesión",
+      "specialty": "Especialidad",
+      "modes": "¿Cómo atiendes?",
+      "zone": "Zona / cobertura",
+      "languages": "Idiomas",
+      "bio": "Presentación",
+      "contact": "Cómo te contactan",
+      "license": "Nº de colegiatura",
+      "credential": "Credencial (privada)"
+    },
+    "ph": {
+      "specialty": "Ej.: psicología clínica, trauma, duelo…",
+      "zone": "Ej.: Caracas, o 'En línea / todo el país'",
+      "bio": "Cuéntale a la gente cómo puedes ayudar.",
+      "contact": "Teléfono, WhatsApp o correo"
     }
   }
 }

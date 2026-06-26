@@ -32,3 +32,26 @@ export async function compressAndUploadPhoto(
 
   return supabase.storage.from("fotos").getPublicUrl(path).data.publicUrl;
 }
+
+/**
+ * Sube una credencial (foto del diploma/carnet) al bucket PRIVADO "credenciales".
+ * Devuelve la RUTA (no una URL pública). Solo el staff puede verla (signed URL).
+ */
+export async function uploadCredential(file: File): Promise<string> {
+  const compressed = await imageCompression(file, {
+    maxSizeMB: 1.2,
+    maxWidthOrHeight: 2000, // documentos: conservar legibilidad
+    useWebWorker: true,
+    fileType: "image/webp",
+  });
+
+  const supabase = createClient();
+  const path = `${crypto.randomUUID()}.webp`;
+
+  const { error } = await supabase.storage
+    .from("credenciales")
+    .upload(path, compressed, { contentType: "image/webp", upsert: false });
+  if (error) throw new Error(error.message);
+
+  return path;
+}

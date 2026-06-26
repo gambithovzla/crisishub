@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Globe, Hospital, LayoutDashboard, LifeBuoy, LogOut, MapPin, MessageCircle, Stethoscope, UserPlus, Users } from "lucide-react";
+import { Globe, HeartHandshake, Hospital, LayoutDashboard, LifeBuoy, LogOut, MapPin, MessageCircle, Stethoscope, UserPlus, Users } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ export const adminNav = [
   { href: "/admin/acopio", key: "acopio", icon: Globe },
   { href: "/admin/centros", key: "facilities", icon: Hospital },
   { href: "/admin/pacientes", key: "patients", icon: Stethoscope },
+  { href: "/admin/voluntarios", key: "professionals", icon: HeartHandshake },
 ] as const;
 
 export default async function AdminLayout({

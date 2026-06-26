@@ -39,6 +39,17 @@ export type HelpCategory =
   | "otros";
 export type HelpStatus = "pendiente" | "en_proceso" | "resuelta";
 export type UserRole = "admin" | "moderador";
+export type Profession =
+  | "psicologo"
+  | "psiquiatra"
+  | "medico_general"
+  | "pediatra"
+  | "enfermeria"
+  | "trabajo_social"
+  | "nutricion"
+  | "fisioterapia"
+  | "odontologia"
+  | "otro";
 
 export type StaffApplicationStatus = "pendiente" | "aprobado" | "rechazado";
 
@@ -239,6 +250,42 @@ export interface Database {
         >;
         Relationships: [];
       };
+      volunteers: {
+        Row: {
+          id: number;
+          event_id: number;
+          nombre: string;
+          profesion: Profession;
+          especialidad: string | null;
+          modalidades: string[];
+          zona: string | null;
+          idiomas: string | null;
+          bio: string | null;
+          contacto: string;
+          colegio_numero: string | null;
+          credencial_path: string | null;
+          verified: boolean;
+          moderation: ModerationStatus;
+          created_at: string;
+        };
+        Insert: {
+          event_id: number;
+          nombre: string;
+          profesion?: Profession;
+          especialidad?: string | null;
+          modalidades?: string[];
+          zona?: string | null;
+          idiomas?: string | null;
+          bio?: string | null;
+          contacto: string;
+          colegio_numero?: string | null;
+          credencial_path?: string | null;
+          verified?: boolean;
+          moderation?: ModerationStatus;
+        };
+        Update: Partial<Database["public"]["Tables"]["volunteers"]["Insert"]>;
+        Relationships: [];
+      };
       collection_points: {
         Row: {
           id: number;
@@ -418,6 +465,22 @@ export interface Database {
         Args: { p_bucket: string; p_max: number; p_window_seconds: number };
         Returns: boolean;
       };
+      listar_voluntarios: {
+        Args: { prof?: string };
+        Returns: {
+          id: number;
+          nombre: string;
+          profesion: Profession;
+          especialidad: string | null;
+          modalidades: string[];
+          zona: string | null;
+          idiomas: string | null;
+          bio: string | null;
+          contacto: string;
+          colegio_numero: string | null;
+          created_at: string;
+        }[];
+      };
       buscar_pacientes: {
         Args: { q?: string; fac?: number | null };
         Returns: {
@@ -466,6 +529,9 @@ export type Tip = Tables<"tips">;
 export type MapMarker = Tables<"map_markers">;
 export type HelpRequest = Tables<"help_requests">;
 export type CollectionPoint = Tables<"collection_points">;
+export type Volunteer = Tables<"volunteers">;
+export type VolunteerPublic =
+  Database["public"]["Functions"]["listar_voluntarios"]["Returns"][number];
 export type Profile = Tables<"profiles">;
 export type StaffApplication = Tables<"staff_applications">;
 export type HealthFacility = Tables<"health_facilities">;
