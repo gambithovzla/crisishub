@@ -11,7 +11,6 @@ import { toast } from "sonner";
 import { Camera, Loader2, MapPin, User, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { StatusBadge } from "@/components/missing/status-badge";
 import {
   Form,
   FormControl,
@@ -39,6 +38,14 @@ import {
 
 const selectClass =
   "flex h-11 w-full rounded-lg border border-input bg-background px-3 text-base outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-50";
+
+// Estilos del badge de estado (versión cliente; StatusBadge es server-only).
+const STATUS_STYLES: Record<string, string> = {
+  desaparecido:
+    "bg-status-missing/15 text-status-missing ring-status-missing/30",
+  encontrado_vivo: "bg-status-found/15 text-status-found ring-status-found/30",
+  fallecido: "bg-status-deceased/15 text-status-deceased ring-status-deceased/30",
+};
 
 export function MissingPersonForm() {
   const t = useTranslations("missing");
@@ -328,7 +335,13 @@ export function MissingPersonForm() {
                             {d.nombre} {d.apellido}
                           </p>
                           <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground">
-                            <StatusBadge estado={d.estado} />
+                            <span
+                              className={`inline-flex w-fit items-center rounded-full px-2 py-0.5 text-xs font-semibold ring-1 ring-inset ${
+                                STATUS_STYLES[d.estado] ?? ""
+                              }`}
+                            >
+                              {t(`status.${d.estado}`)}
+                            </span>
                             {lugar ? <span>{lugar}</span> : null}
                             {d.documento_masked ? (
                               <span>
