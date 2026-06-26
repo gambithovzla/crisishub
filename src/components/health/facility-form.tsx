@@ -6,13 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { Loader2, MapPin } from "lucide-react";
+import { Loader2, MapPin, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createHealthFacility } from "@/app/hospitales/actions";
+import { geocodeAddress } from "@/lib/geocode";
 import { FACILITY_TYPES } from "@/lib/health";
 import { ESTADOS_VENEZUELA } from "@/lib/venezuela";
 import {
@@ -51,7 +52,36 @@ export function FacilityForm() {
       url: "",
     },
   });
-  const { register, handleSubmit, setValue, formState } = form;
+  const { register, handleSubmit, setValue, getValues, formState } = form;
+  const [geocoding, setGeocoding] = useState(false);
+
+  // Geocodifica la dirección escrita (estilo Uber) y fija las coordenadas.
+  async function locateByAddress() {
+    const { direccion, ciudad, estado } = getValues();
+    const query = [direccion, ciudad, estado, "Venezuela"]
+      .filter(Boolean)
+      .join(", ");
+    if (!direccion.trim() && !ciudad.trim()) {
+      toast.error(t("geocodeEmpty"));
+      return;
+    }
+    setGeocoding(true);
+    try {
+      const results = await geocodeAddress(query, 1);
+      if (results.length === 0) {
+        toast.error(t("geocodeNotFound"));
+        return;
+      }
+      setValue("lat", String(results[0].lat));
+      setValue("lng", String(results[0].lng));
+      setLocated(true);
+      toast.success(t("geocodeOk"));
+    } catch {
+      toast.error(t("geocodeError"));
+    } finally {
+      setGeocoding(false);
+    }
+  }
 
   function captureLocation() {
     if (!("geolocation" in navigator)) {
@@ -136,26 +166,39 @@ export function FacilityForm() {
           className="h-11 text-base"
           {...register("direccion")}
         />
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          className="mt-1"
-          onClick={captureLocation}
-          disabled={locating}
-        >
-          {locating ? (
-            <Loader2 className="size-4 animate-spin" />
-          ) : (
-            <MapPin className="size-4" />
-          )}
-          {tm("useMyLocation")}
-        </Button>
-        {located ? (
-          <span className="ml-2 text-sm text-success">
-            {tm("locationSaved")}
-          </span>
-        ) : null}
+        <div className="mt-1 flex flex-wrap items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={locateByAddress}
+            disabled={geocoding}
+          >
+            {geocoding ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <Search className="size-4" />
+            )}
+            {t("geocodeAddress")}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={captureLocation}
+            disabled={locating}
+          >
+            {locating ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <MapPin className="size-4" />
+            )}
+            {tm("useMyLocation")}
+          </Button>
+          {located ? (
+            <span className="text-sm text-success">{tm("locationSaved")}</span>
+          ) : null}
+        </div>
       </div>
 
       <div className="space-y-1.5">

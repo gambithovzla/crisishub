@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
@@ -57,18 +57,21 @@ export function PatientForm({ facilities }: { facilities: FacilityOption[] }) {
       reportanteContacto: "",
     },
   });
-  const { register, handleSubmit, setValue, watch, formState } = form;
+  const { register, handleSubmit, setValue, control, formState } = form;
 
-  const documentoTipo = watch("documentoTipo");
+  const documentoTipo = useWatch({ control, name: "documentoTipo" });
 
   // Agrupar centros por estado para el select.
-  const groups = new Map<string, FacilityOption[]>();
-  for (const f of facilities) {
-    const key = f.estado ?? "—";
-    const arr = groups.get(key) ?? [];
-    arr.push(f);
-    groups.set(key, arr);
-  }
+  const groups = useMemo(() => {
+    const m = new Map<string, FacilityOption[]>();
+    for (const f of facilities) {
+      const key = f.estado ?? "—";
+      const arr = m.get(key) ?? [];
+      arr.push(f);
+      m.set(key, arr);
+    }
+    return m;
+  }, [facilities]);
 
   function onFacilityChange(value: string) {
     setFacilityChoice(value);
